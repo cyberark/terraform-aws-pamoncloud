@@ -4,13 +4,12 @@ This module deploys and manages PAM components like **PVWA**, **CPM**, **PSM**, 
 
 ## Usage
 
-See [`examples`](/examples) directory for working examples to reference:
-
 The following example demonstrates how to use the `component` module to deploy a **PVWA** instance. This example can be adapted for other components (such as **CPM**, **PSM**, **PSMP**, and **PTA**) by changing the `component` value to the respective component name.
 
 ```hcl
 module "pvwa_instance" {
-  source                         = "../../modules/component"
+  source = "cyberark/pamoncloud/aws//modules/component"
+
   instance_name                  = "pvwa-instance"
   instance_type                  = "m5.xlarge"
   key_name                       = "my-key"

@@ -23,27 +23,14 @@ Before using these modules, ensure you have the following:
 
 Refer to the [Prerequisites](https://docs.cyberark.com/pam-self-hosted/latest/en/content/pas%20cloud/deploy_terraform.htm#Prerequisites) section in our documentation for detailed setup instructions.
 
-## Quick Start  
-To get started:  
-1. Clone this repository:  
-   ```bash
-   git clone https://github.com/cyberark/terraform-aws-pamoncloud.git
-   cd terraform-aws-pamoncloud
-   ```
-
-2. Log in to your AWS account: [Terraform Instructions for AWS Authentication](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration)
-
-3. Review the provided examples under the `examples/` directory.
-
-4. Customize the variables as needed. You can use any of the methods described in the [Terraform Configuration Language Documentation](https://developer.hashicorp.com/terraform/language/values/variables#assigning-values-to-root-module-variables).
-
-5. Deploy with Terraform:  
-   ```bash
-   terraform init  
-   terraform apply  
-   ```
-
-6. Follow the post-deployment steps in the [Post Installation Guide](https://docs.cyberark.com/pam-self-hosted/latest/en/content/pas%20cloud/post-installation.htm).
+## Usage  
+Please refer to the 'Usage' section of each module's README file for detailed instructions:  
+- [PAM Network Module Usage](/modules/pam_network/#Usage): This module sets up the network infrastructure required for CyberArk PAM, including VPCs, subnets, and security groups.  
+- [PAM Network Peering Module Usage](/modules/pam_network_peering/#Usage): This module establishes network peering connections between VPCs to enable secure communication across different network segments.  
+- [Deploy Prerequisites Module Usage](/modules/deploy_prerequisites/#Usage): This module ensures all necessary prerequisites are in place before deploying CyberArk PAM, such as IAM roles, policies, and initial configurations.  
+- [Vault Module Usage](/modules/vault/#Usage): This module deploys and configures the CyberArk Vault, the core component for managing privileged accounts and credentials.  
+- [Vault DR Module Usage](/modules/vault_dr/#Usage): This module sets up Disaster Recovery (DR) for the CyberArk Vault, ensuring high availability and data redundancy.  
+- [Component Module Usage](/modules/component/#Usage): This module deploys additional CyberArk components required for a complete PAM solution, such as PVWA, CPM, and PSM.  
 
 ## Documentation  
 - [User Guide](https://docs.cyberark.com/pam-self-hosted/latest/en/content/pas%20cloud/deploy_terraform.htm): Comprehensive instructions for deployment, configuration, and troubleshooting.  

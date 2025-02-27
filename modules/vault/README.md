@@ -4,11 +4,10 @@ This module is used to deploy and manage a **Vault** instance within an AWS envi
 
 ## Usage
 
-See [`examples`](/examples) directory for working examples to reference:
-
 ```hcl
 module "vault_instance" {
-  source                         = "../../modules/vault"
+  source = "cyberark/pamoncloud/aws//modules/vault"
+
   instance_name                  = "PrimaryVault"
   instance_type                  = "m5.xlarge"
   key_name                       = "vault-key"

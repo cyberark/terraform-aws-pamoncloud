@@ -4,11 +4,10 @@ This module deploys and manages the Vault Disaster Recovery (Vault DR) component
 
 ## Usage
 
-See [`examples`](/examples) directory for working examples to reference:
-
 ```hcl
 module "vault_dr_instance" {
-  source                         = "../../modules/vault_dr"
+  source = "cyberark/pamoncloud/aws//modules/vault_dr"
+
   instance_name                  = "vault-dr-instance"
   instance_type                  = "m5.xlarge"
   key_name                       = "vault-key" 

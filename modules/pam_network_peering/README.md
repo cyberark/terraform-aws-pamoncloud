@@ -4,14 +4,14 @@ This module creates all necessary network resources required for the peering con
 
 ## Usage
 
-See [`examples`](/examples) directory for working examples to reference:
-
 ```hcl
 module "peering_connection_request" {
-  source = "../../modules/pam_network_peering"
+  source = "cyberark/pamoncloud/aws//modules/pam_network_peering"
+
   providers = {
     aws = aws.main
   }
+
   action              = "request"
   vpc_id              = "vpc-1234"
   vpc_cidr            = "10.0.0.0/16"
@@ -53,10 +53,12 @@ module "peering_connection_request" {
 }
 
 module "peering_connection_accept" {
-  source = "../../modules/pam_network_peering"
+  source = "cyberark/pamoncloud/aws//modules/pam_network_peering"
+
   providers = {
     aws = aws.dr
   }
+
   action             = "accept"
   accept_pcx_id      = module.peering_connection_request.peering_connection_id[0]
   vpc_id             = "vpc-4567"

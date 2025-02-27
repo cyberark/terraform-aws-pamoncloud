@@ -4,14 +4,14 @@ This module creates all necessary network resources required for the deployment 
 
 ## Usage
 
-See [`examples`](/examples) directory for working examples to reference:
-
 ```hcl
 module "pam_network" {
-  source = "../../modules/pam_network"
+  source = "cyberark/pamoncloud/aws//modules/pam_network"
+
   providers = { //optional if deploy in dual region
     aws = aws.main
   }
+
   pam_vpc_cidr               = "10.0.0.0/16"
   network_type               = "nat" // or "privatelink"
   users_access_cidr          = "192.168.0.0/16"

@@ -4,11 +4,9 @@ This module is used to set up essential AWS resources required for the deploymen
 
 ## Usage
 
-See [`examples`](/examples) directory for working examples to reference:
-
 ```hcl
 module "deploy_prep" {
-  source = "../../modules/deploy_prerequisites"
+  source = "  source = "cyberark/pamoncloud/aws//modules/deploy_prerequisites"
 }
 ```
 
