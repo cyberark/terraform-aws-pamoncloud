@@ -13,12 +13,8 @@ variable "instance_hostname" {
 }
 
 variable "instance_type" {
-  description = "The type of the EC2 instance. Allowed types are: c5.xlarge, m5.xlarge, c5.2xlarge, m5.2xlarge, c5.4xlarge, m5.4xlarge, c5.9xlarge, m5.8xlarge."
+  description = "The type of the EC2 instance."
   type        = string
-  validation {
-    condition     = contains(["c5.xlarge", "m5.xlarge", "c5.2xlarge", "m5.2xlarge", "c5.4xlarge", "m5.4xlarge", "c5.9xlarge", "m5.8xlarge"], var.instance_type)
-    error_message = "Invalid instance type. Allowed types are: c5.xlarge, m5.xlarge, c5.2xlarge, m5.2xlarge, c5.4xlarge, m5.4xlarge, c5.9xlarge, m5.8xlarge."
-  }
 }
 
 variable "key_name" {

@@ -12,7 +12,7 @@ These solutions are designed to be flexible, scalable, and adaptable to your org
 
 ## Features  
 - **Modular architecture**: Use only the components you need for your environment.  
-- **Customizable configurations**: Adjust settings to fit your organization’s unique PAM deployment.  
+- **Customizable configurations**: Adjust settings to fit your organization's unique PAM deployment.  
 - **Examples included**: Step-by-step examples to help you get started quickly.  
 
 ## Prerequisites  

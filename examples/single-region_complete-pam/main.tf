@@ -11,14 +11,14 @@ locals {
 
   # Primary Vault locals
   vault_instance_name            = "[PAMonCloud_TF] Primary Vault"
-  vault_instance_type            = "m5.xlarge"
+  vault_instance_type            = "m5.2xlarge"
   vault_license_file             = "license.xml"
   vault_recovery_public_key_file = "recpub.key"
   vault_instance_hostname        = "vault"
 
-  # Vault DR locals
+  # DR Vault locals
   vaultdr_instance_name     = "[PAMonCloud_TF] Vault DR"
-  vaultdr_instance_type     = "m5.xlarge"
+  vaultdr_instance_type     = "m5.2xlarge"
   vaultdr_instance_hostname = "vault-dr"
 
   # PVWA locals
@@ -33,7 +33,7 @@ locals {
 
   # PSM locals
   psm_instance_name     = "[PAMonCloud_TF] PSM"
-  psm_instance_type     = "m5.xlarge"
+  psm_instance_type     = "m5.2xlarge"
   psm_instance_hostname = "psm"
 
   # PSMP locals

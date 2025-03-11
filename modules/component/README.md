@@ -90,7 +90,7 @@ For list objects, you can use `terraform state list` to get all objects within t
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_instance_name"></a> [instance\_name](#input\_instance\_name)| The name of the EC2 instance | `string` | `null` | yes |
-| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type)| The type of the EC2 instance. Allowed types are: c5.xlarge, m5.xlarge, c5.2xlarge, m5.2xlarge, c5.4xlarge, m5.4xlarge, c5.9xlarge, m5.8xlarge. | `string` | `null`| yes |
+| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type)| The type of the EC2 instance. | `string` | `null`| yes |
 | <a name="input_key_name"></a> [key\_name](#input\_key\_name) | The name of the EC2 key pair to use. Must be between 1 and 255 characters long and can only contain alphanumeric characters, hyphens (-), and underscores (_)." | `string` | `null` | yes |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id)| The ID of the subnet in which the EC2 instance will be launched. | `string` | `null` | yes |
 | <a name="input_vpc_security_group_ids"></a> [vpc\_security\_group\_ids](#input\_vpc\_security\_group\_ids) | list of security group IDs to associate with the EC2 instance.| `list(string)` | `null` | yes |
