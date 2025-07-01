@@ -54,7 +54,7 @@ Note that this example creates resources which can cost money (AWS EC2 Instance,
 | <a name="input_primary_vault_ip"></a> [primary\_vault\_ip](#input\_primary\_vault\_ip) | The IP address of the primary Vault. |
 | <a name="input_vault_dr_ip"></a> [vault\_dr\_ip](#input\_vault\_dr\_ip) | The IP address of Vault DR. (Optional) |
 | <a name="input_vault_admin_password"></a> [vault\_admin\_password](#input\_vault\_admin\_password) | Primary Vault Admin Password. |
-| <a name="input_pvwa_private_dns"></a> [pvwa\_private\_dns](#input\_pvwa\_private\_dns) | The private DNS of the PVWA Instance. (Required only when component is PTA) |
+| <a name="input_pvwa_private_endpoint"></a> [pvwa\_private\_endpoint](#input\_pvwa\_private\_endpoint) | The PVWA's private DNS name (when deploying PTA) or private IP address of the PVWA instance (when deploying CPM). Other components do not require this parameter. |
 | <a name="input_component_custom_ami_id"></a> [component\_custom\_ami\_id](#input\_component\_custom\_ami\_id) | Custom AMI ID to use instead of the default one. (Optional) |
 
 ## Outputs

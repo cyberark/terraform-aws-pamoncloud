@@ -237,6 +237,7 @@ module "cpm_instance" {
   custom_ami_id                  = var.cpm_custom_ami_id
   primary_vault_ip               = module.vault_instance.instance_ip_address
   vault_dr_ip                    = module.vault_dr_instance.instance_ip_address
+  pvwa_private_endpoint          = module.pvwa_instance.instance_ip_address
   instance_hostname              = local.cpm_instance_hostname
   component                      = "CPM"
   vault_admin_username           = local.vault_admin_username
@@ -306,7 +307,7 @@ module "pta_instance" {
   custom_ami_id                  = var.pta_custom_ami_id
   primary_vault_ip               = module.vault_instance.instance_ip_address
   vault_dr_ip                    = module.vault_dr_instance.instance_ip_address
-  pvwa_private_dns               = module.pvwa_instance.instance_private_dns
+  pvwa_private_endpoint          = module.pvwa_instance.instance_private_dns
   instance_hostname              = local.pta_instance_hostname
   component                      = "PTA"
   vault_admin_username           = local.vault_admin_username
@@ -314,5 +315,5 @@ module "pta_instance" {
   log_group_name                 = module.deploy_prep_main.log_group_name
   manage_ssm_password_lambda     = module.deploy_prep_main.manage_ssm_password_lambda
   retrieve_success_signal_lambda = module.deploy_prep_main.retrieve_success_signal_lambda
-  depends_on                     = [module.pvwa_instance]
+  depends_on                     = [module.psm_instance, module.psmp_instance]
 }

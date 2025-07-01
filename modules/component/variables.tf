@@ -90,13 +90,17 @@ variable "component" {
   }
 }
 
-variable "pvwa_private_dns" {
-  description = "The private DNS of the PVWA Instance. (Required only when component is PTA)"
+variable "pvwa_private_endpoint" {
+  description = "The PVWA's private DNS name (when deploying PTA) or private IP address of the PVWA instance (when deploying CPM). Other components do not require this parameter."
   type        = string
   default     = ""
   validation {
-    condition     = var.component != "PTA" || can(regex("^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$", var.pvwa_private_dns))
-    error_message = "PVWA Private DNS must be a valid DNS name when the component is PTA."
+    condition     = var.component != "PTA" || can(regex("^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$", var.pvwa_private_endpoint))
+    error_message = "A valid PVWA Private DNS name must be provided when the component is PTA."
+  }
+  validation {
+    condition     = var.component != "CPM" || can(regex("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$", var.pvwa_private_endpoint))
+    error_message = "A valid PVWA Private IP must be provided when the component is CPM."
   }
 }
 

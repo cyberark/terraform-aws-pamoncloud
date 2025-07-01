@@ -1,6 +1,16 @@
 # CyberArk PAMonCloud Terraform Package Release Notes
 The PAMonCloud Terraform package includes CyberArk PAM product implementations, delivered as Terraform modules and examples to automate deployment on AWS. This solution provides enhanced flexibility and scalability for deploying core PAM components and associated infrastructure.
 
+## [PAMonCloud Terraform on AWS v14.6] (1.7.2025)
+
+### Changed
+- Component Image ID variables , which were previously optional, are now required.
+- cpm_instance module now required PVWA's IP address to be provided.
+
+### Removed
+- Premade PAM images are no longer distributed. PAM Images can be obtained by using PAMonCloud's image building solution.
+- Removed usage of aws_ami data source for fetching latest AMIs.
+
 ## [PAMonCloud Terraform on AWS v14.4] (12.12.2024)
 
 ### Added

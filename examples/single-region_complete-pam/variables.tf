@@ -33,37 +33,37 @@ variable "vault_dr_secret" {
 }
 
 variable "vault_custom_ami_id" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+  description = "Custom AMI ID to use instead of the default one."
   type        = string
   default     = ""
 }
 
 variable "pvwa_custom_ami_id" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+  description = "Custom AMI ID to use instead of the default one."
   type        = string
   default     = ""
 }
 
 variable "cpm_custom_ami_id" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+  description = "Custom AMI ID to use instead of the default one."
   type        = string
   default     = ""
 }
 
 variable "psm_custom_ami_id" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+  description = "Custom AMI ID to use instead of the default one."
   type        = string
   default     = ""
 }
 
 variable "psmp_custom_ami_id" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+  description = "Custom AMI ID to use instead of the default one."
   type        = string
   default     = ""
 }
 
 variable "pta_custom_ami_id" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+  description = "Custom AMI ID to use instead of the default one."
   type        = string
   default     = ""
 }

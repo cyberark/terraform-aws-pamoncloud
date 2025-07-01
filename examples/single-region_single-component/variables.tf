@@ -35,14 +35,14 @@ variable "vault_admin_password" {
   sensitive   = true
 }
 
-variable "pvwa_private_dns" {
-  description = "The private DNS of the PVWA Instance. (Required only when component is PTA)"
+variable "pvwa_private_endpoint" {
+  description = "The PVWA's private DNS name (when deploying PTA) or private IP address of the PVWA instance (when deploying CPM). Other components do not require this parameter."
   type        = string
   default     = ""
 }
 
 variable "component_custom_ami_id" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+  description = "Custom AMI ID to use instead of the default one."
   type        = string
   default     = ""
 }

@@ -32,14 +32,14 @@ variable "vault_dr_secret" {
   sensitive   = true
 }
 
-variable "vault_custom_ami_id_main_region" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+variable "vault_custom_ami_id" {
+  description = "Custom AMI ID to use instead of the default one."
   type        = string
   default     = ""
 }
 
-variable "vault_custom_ami_id_dr_region" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+variable "vault_dr_custom_ami_id" {
+  description = "Custom AMI ID to use instead of the default one."
   type        = string
   default     = ""
 }

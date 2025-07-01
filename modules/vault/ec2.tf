@@ -1,20 +1,7 @@
-#### Retrieve Vault AMI
-
-data "aws_ami" "vault_ami" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["CyberArk PAM Vault * ${local.default_ami_os}"]
-  }
-
-  owners = ["923248178732"]
-}
-
 #### Provision Vault Instance
 
 resource "aws_instance" "vault" {
-  ami                    = local.ami_id
+  ami                    = var.custom_ami_id
   instance_type          = var.instance_type
   key_name               = var.key_name
   subnet_id              = var.subnet_id

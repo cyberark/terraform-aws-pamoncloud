@@ -127,7 +127,7 @@ module "vault_instance" {
   key_name                       = var.key_name
   subnet_id                      = module.pam_network_main.private_subnets_map["Vault Main Subnet"].id
   vpc_security_group_ids         = [module.pam_network_main.security_group_ids["Vault"]]
-  custom_ami_id                  = var.vault_custom_ami_id_main_region
+  custom_ami_id                  = var.vault_custom_ami_id
   vault_files_bucket             = var.vault_files_bucket
   license_file                   = local.vault_license_file
   recovery_public_key_file       = local.vault_recovery_public_key_file
@@ -156,7 +156,7 @@ module "vault_dr_instance" {
   key_name                       = var.key_name
   subnet_id                      = module.pam_network_dr.private_subnets_map["Vault DR Subnet"].id
   vpc_security_group_ids         = [module.pam_network_dr.security_group_ids["Vault"]]
-  custom_ami_id                  = var.vault_custom_ami_id_dr_region
+  custom_ami_id                  = var.vault_dr_custom_ami_id
   primary_vault_ip               = module.vault_instance.instance_ip_address
   instance_hostname              = local.vaultdr_instance_hostname
   vault_dr_password              = var.vault_dr_password

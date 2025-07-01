@@ -1,20 +1,7 @@
-#### Retrieve Component AMI
-
-data "aws_ami" "component_ami" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["CyberArk PAM ${var.component} * ${local.default_ami_os}"]
-  }
-
-  owners = ["923248178732"]
-}
-
 #### Provision Component Instance
 
 resource "aws_instance" "component" {
-  ami                    = local.ami_id
+  ami                    = var.custom_ami_id
   instance_type          = var.instance_type
   key_name               = var.key_name
   subnet_id              = var.subnet_id

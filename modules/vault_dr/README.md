@@ -86,7 +86,6 @@ For list objects, you can use `terraform state list` to get all objects within t
 | `aws_lambda_invocation.store_dr_secret[0]`                      | Lambda invocation for storing DR secret.                   | 
 | `aws_lambda_invocation.store_master_password`                   | Lambda invocation for storing master password.             | 
 | `aws_lambda_invocation.wait_for_userdata_completion`            | Lambda invocation to monitor user data completion.         |
-| `data.aws_ami.vault_ami`                                        | AWS AMI for vaults.                                        |
 | `data.aws_region.current`                                       | Current AWS region.                                        |
 | `null_resource.always_recreate`                                 | Triggers resource recreation.                              |
 

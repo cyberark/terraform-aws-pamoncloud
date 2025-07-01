@@ -77,7 +77,6 @@ For list objects, you can use `terraform state list` to get all objects within t
 | `aws_lambda_invocation.remove_admin_password`	                | Lambda invocation for removing admin password.	          |
 | `aws_lambda_invocation.store_admin_password`	                | Lambda invocation for storing admin password.	            |
 | `aws_lambda_invocation.wait_for_userdata_completion`          | Lambda invocation to monitor user data completion.        |
-| `data.aws_ami.component_ami`                                  | AWS AMI for components.                                   | 
 | `data.aws_caller_identity.current`                            | AWS Caller Identity of current user.                      |
 | `data.aws_partition.current`                                  | Current AWS partition.                                    |
 | `data.aws_region.current`                                     | Current AWS region.                                       |

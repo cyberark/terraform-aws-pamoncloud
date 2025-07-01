@@ -17,6 +17,7 @@ locals {
           "VaultAdminUser"                = "${var.vault_admin_username}"
           "SSMAdminPassParameterID"       = "${local.admin_password_ssm_id}"
           "VaultPrivateIP"                = "${local.vault_ips}"
+          "PVWAPrivateIP"                 = "${var.pvwa_private_endpoint}"
           "ComponentHostname"             = "${var.instance_hostname}"
         }
 
@@ -106,7 +107,7 @@ locals {
         sudo /tmp/register.sh \
           "aws" \
           "${local.vault_ips}" \
-          "${var.pvwa_private_dns}" \
+          "${var.pvwa_private_endpoint}" \
           "${var.vault_admin_username}" \
           "${local.admin_password_ssm_id}" \
           "${var.instance_hostname}" \

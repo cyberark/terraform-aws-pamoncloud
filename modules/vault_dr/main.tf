@@ -14,8 +14,6 @@ locals {
   success_signal       = local.component_data[local.component].success_signal
   log_streams          = local.component_data[local.component].log_streams
   user_data            = local.component_data[local.component].user_data
-  default_ami_os       = "Win2019"
-  ami_id               = var.custom_ami_id != "" ? var.custom_ami_id : data.aws_ami.vault_ami.id
 }
 
 resource "null_resource" "always_recreate" {

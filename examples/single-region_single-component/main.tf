@@ -33,7 +33,7 @@ module "component_instance" {
   custom_ami_id                  = var.component_custom_ami_id
   primary_vault_ip               = var.primary_vault_ip
   vault_dr_ip                    = var.vault_dr_ip
-  pvwa_private_dns               = var.pvwa_private_dns
+  pvwa_private_endpoint          = var.pvwa_private_endpoint
   instance_hostname              = local.component_instance_hostname
   component                      = var.component
   vault_admin_username           = local.vault_admin_username
