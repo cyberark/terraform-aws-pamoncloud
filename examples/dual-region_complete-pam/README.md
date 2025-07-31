@@ -59,12 +59,13 @@ Note that this example creates resources which can cost money (AWS EC2 Instance,
 | <a name="input_vault_admin_password"></a> [vault\_admin\_password](#input\_vault\_admin\_password) | Primary Vault Admin Password. |
 | <a name="input_vault_dr_password"></a> [vault\_dr\_password](#input\_vault\_dr\_password) | Primary Vault DR Password. |
 | <a name="input_vault_dr_secret"></a> [vault\_dr\_secret](#input\_vault\_dr\_secret) | Primary Vault DR Secret. (Required only for DR implementations)|
-| <a name="input_vault_custom_ami_id"></a> [vault\_custom\_ami\_id](#input\_vault\_custom\_ami\_id) | Custom AMI ID to use instead of the default one. (Optional) |
-| <a name="input_pvwa_custom_ami_id"></a> [pvwa\_custom\_ami\_id](#input\_pvwa\_custom\_ami\_id) | Custom AMI ID to use instead of the default one. (Optional) |
-| <a name="input_cpm_custom_ami_id"></a> [cpm\_custom\_ami\_id](#input\_cpm\_custom\_ami\_id) | Custom AMI ID to use instead of the default one. (Optional) |
-| <a name="input_psm_custom_ami_id"></a> [psm\_custom\_ami\_id](#input\_psm\_custom\_ami\_id) | Custom AMI ID to use instead of the default one. (Optional) |
-| <a name="input_psmp_custom_ami_id"></a> [psmp\_custom\_ami\_id](#input\_psmp\_custom\_ami\_id) | Custom AMI ID to use instead of the default one. (Optional) |
-| <a name="input_pta_custom_ami_id"></a> [pta\_custom\_ami\_id](#input\_pta\_custom\_ami\_id) | Custom AMI ID to use instead of the default one. (Optional) |
+| <a name="input_vault_ami_id"></a> [vault\_ami\_id](#input\_vault\_ami\_id) | AMI ID to use for the EC2 instance deployment. |
+| <a name="input_vault_dr_ami_id"></a> [vault\_dr\_ami\_id](#input\_vault\_dr\_ami\_id) | AMI ID to use for the EC2 instance deployment. |
+| <a name="input_pvwa_ami_id"></a> [pvwa\_ami\_id](#input\_pvwa\_ami\_id) | AMI ID to use for the EC2 instance deployment. |
+| <a name="input_cpm_ami_id"></a> [cpm\_ami\_id](#input\_cpm\_ami\_id) | AMI ID to use for the EC2 instance deployment. |
+| <a name="input_psm_ami_id"></a> [psm\_ami\_id](#input\_psm\_ami\_id) | AMI ID to use for the EC2 instance deployment. |
+| <a name="input_psmp_ami_id"></a> [psmp\_ami\_id](#input\_psmp\_ami\_id) | AMI ID to use for the EC2 instance deployment. |
+| <a name="input_pta_ami_id"></a> [pta\_ami\_id](#input\_pta\_ami\_id) | AMI ID to use for the EC2 instance deployment. |
 
 ## Outputs
 
@@ -120,7 +121,7 @@ Note that this example creates resources which can cost money (AWS EC2 Instance,
 
 ### Retrieve information about a resource (post deployment)
 You can use the `terraform state show` command followed by: `module.<module_name>.<resource_name>`  
-Example: `terraform state show 'module.vault_instance.data.aws_ami.vault_ami'`  
+Example: `terraform state show 'module.vault_instance.aws_instance.vault'`  
 For list objects, you can use `terraform state list` to get all objects within the list.
 
 #### **EC2 Instances**
@@ -209,8 +210,6 @@ For list objects, you can use `terraform state list` to get all objects within t
 | `data.archive_file.manage_ssm_password_zip`       | Archive file for managing SSM passwords.                    | deploy_prep_main, deploy_prep_dr                                  |
 | `data.archive_file.remove_permissions_zip`        | Archive file for removing permissions.                      | deploy_prep_main, deploy_prep_dr                                  |
 | `data.archive_file.retrieve_success_signal_zip`   | Archive file for retrieving success signal.                 | deploy_prep_main, deploy_prep_dr                                  |
-| `data.aws_ami.component_ami`                      | AWS AMI for components.                                     | [Component Instances](#component-instances)                       |
-| `data.aws_ami.vault_ami`                          | AWS AMI for vaults.                                         | [Vault Instances](#vault-instances)                               |
 | `data.aws_availability_zones.available`           | AWS availability zones information.                         | pam_network_main, pam_network_dr                                  |
 | `data.aws_caller_identity.current`                | AWS Caller Identity of current user.                        | [All Instances](#all-instances), deploy_prep_main, deploy_prep_dr |
 | `data.aws_partition.current`                      | Current AWS partition.                                      | [All Instances](#all-instances), deploy_prep_main, deploy_prep_dr |

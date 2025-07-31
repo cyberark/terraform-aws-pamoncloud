@@ -30,7 +30,7 @@ module "component_instance" {
   key_name                       = var.key_name
   subnet_id                      = var.subnet_id
   vpc_security_group_ids         = var.vpc_security_group_ids
-  custom_ami_id                  = var.component_custom_ami_id
+  ami_id                         = var.component_ami_id
   primary_vault_ip               = var.primary_vault_ip
   vault_dr_ip                    = var.vault_dr_ip
   pvwa_private_dns               = var.pvwa_private_dns

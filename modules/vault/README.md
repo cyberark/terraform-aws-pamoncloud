@@ -13,7 +13,7 @@ module "vault_instance" {
   key_name                       = "vault-key"
   subnet_id                      = "subnet-0bb1c79de3EXAMPLE"
   vpc_security_group_ids         = ["sg-04e1a1d2f5dEXAMPLE"]
-  custom_ami_id                  = "ami-0c55b159chEXAMPLE"
+  ami_id                         = "ami-0c55b159chEXAMPLE"
   vault_files_bucket             = "vault-files-bucket"
   license_file                   = "license.xml"
   recovery_public_key_file       = "recpub.key"
@@ -92,7 +92,6 @@ For list objects, you can use `terraform state list` to get all objects within t
 | `aws_lambda_invocation.store_dr_secret[0]`                      | Lambda invocation for storing DR secret.                   | 
 | `aws_lambda_invocation.store_master_password`                   | Lambda invocation for storing master password.             | 
 | `aws_lambda_invocation.wait_for_userdata_completion`            | Lambda invocation to monitor user data completion.         |
-| `data.aws_ami.vault_ami`                                        | AWS AMI for vaults.                                        |
 | `data.aws_region.current`                                       | Current AWS region.                                        |
 | `null_resource.always_recreate`                                 | Triggers resource recreation.                              |
 
@@ -113,7 +112,7 @@ For list objects, you can use `terraform state list` to get all objects within t
 | <a name="input_vault_files_bucket"></a> [vault\_files\_bucket](#input_vault\_files\_bucket) | The name of the S3 bucket where Vault license and recovery key are stored. | `string` | `null` | yes |
 | <a name="input_license_file"></a> [license\_file](#input_license\_file) | The name of the license file stored in the S3 bucket. | `string` | `license.xml` | no |
 | <a name="input_recovery_public_key_file"></a> [recovery\_public\_key\_file](#input_recovery\_public\_key\_file) | The name of the recovery public key file stored in the S3 bucket. | `string` | `recpub.key` | no |
-| <a name="input_custom_ami_id"></a> [custom\_ami\_id](#input_custom\_ami\_id) | Custom AMI ID to use instead of the default one. (Optional) | `string` | `null` | no |
+| <a name="input_vault_ami_id"></a> [vault\_ami\_id](#input\_vault\_ami\_id)| AMI ID to use for the EC2 instance deployment. | `string` | `null` | yes |
 | <a name="input_log_group_name"></a> [log\_group\_name](#input_log\_group\_name) | The name of the CloudWatch log group. | `string` | `null` | yes |
 | <a name="input_manage_ssm_password_lambda"></a> [manage\_ssm\_password\_lambda](#input_manage\_ssm\_password\_lambda) | Required specs for the Lambda function that manages SSM passwords. | `object({ function_name = string })` | `null` | yes |
 | <a name="input_retrieve_success_signal_lambda"></a> [retrieve\_success\_signal\_lambda](#input_retrieve\_success\_signal\_lambda) | Required specs for the Lambda function that retrieves success signals. | `object({ function_name = string })` | `null` | yes |

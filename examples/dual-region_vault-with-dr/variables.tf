@@ -32,14 +32,12 @@ variable "vault_dr_secret" {
   sensitive   = true
 }
 
-variable "vault_custom_ami_id_main_region" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+variable "vault_ami_id" {
+  description = "AMI ID to use for the EC2 instance deployment."
   type        = string
-  default     = ""
 }
 
-variable "vault_custom_ami_id_dr_region" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+variable "vault_dr_ami_id" {
+  description = "AMI ID to use for the EC2 instance deployment."
   type        = string
-  default     = ""
 }

@@ -41,8 +41,7 @@ variable "pvwa_private_dns" {
   default     = ""
 }
 
-variable "component_custom_ami_id" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+variable "component_ami_id" {
+  description = "AMI ID to use for the EC2 instance deployment."
   type        = string
-  default     = ""
 }

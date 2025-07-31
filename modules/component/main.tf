@@ -12,8 +12,6 @@ locals {
   success_signal        = local.component_data[var.component].success_signal
   log_streams           = local.component_data[var.component].log_streams
   user_data             = local.component_data[var.component].user_data
-  default_ami_os        = contains(["PSMP", "PTA"], var.component) ? "RHEL-9" : "Win2019"
-  ami_id                = var.custom_ami_id != "" ? var.custom_ami_id : data.aws_ami.component_ami.id
 }
 
 resource "null_resource" "always_recreate" {

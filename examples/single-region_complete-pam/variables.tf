@@ -32,38 +32,32 @@ variable "vault_dr_secret" {
   sensitive   = true
 }
 
-variable "vault_custom_ami_id" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+variable "vault_ami_id" {
+  description = "AMI ID to use for the EC2 instance deployment."
   type        = string
-  default     = ""
 }
 
-variable "pvwa_custom_ami_id" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+variable "pvwa_ami_id" {
+  description = "AMI ID to use for the EC2 instance deployment."
   type        = string
-  default     = ""
 }
 
-variable "cpm_custom_ami_id" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+variable "cpm_ami_id" {
+  description = "AMI ID to use for the EC2 instance deployment."
   type        = string
-  default     = ""
 }
 
-variable "psm_custom_ami_id" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+variable "psm_ami_id" {
+  description = "AMI ID to use for the EC2 instance deployment."
   type        = string
-  default     = ""
 }
 
-variable "psmp_custom_ami_id" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+variable "psmp_ami_id" {
+  description = "AMI ID to use for the EC2 instance deployment."
   type        = string
-  default     = ""
 }
 
-variable "pta_custom_ami_id" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+variable "pta_ami_id" {
+  description = "AMI ID to use for the EC2 instance deployment."
   type        = string
-  default     = ""
 }

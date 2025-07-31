@@ -15,7 +15,7 @@ module "pvwa_instance" {
   key_name                       = "my-key"
   subnet_id                      = "subnet-0bb1c79de3EXAMPLE"
   vpc_security_group_ids         = ["sg-04e1a1d2f5dEXAMPLE"]
-  custom_ami_id                  = "ami-0c55b159cbEXAMPLE"
+  ami_id                         = "ami-0c55b159cbEXAMPLE"
   primary_vault_ip               = "10.0.1.1"
   vault_dr_ip                    = "10.0.1.2"
   instance_hostname              = "pvwa"
@@ -77,7 +77,6 @@ For list objects, you can use `terraform state list` to get all objects within t
 | `aws_lambda_invocation.remove_admin_password`	                | Lambda invocation for removing admin password.	          |
 | `aws_lambda_invocation.store_admin_password`	                | Lambda invocation for storing admin password.	            |
 | `aws_lambda_invocation.wait_for_userdata_completion`          | Lambda invocation to monitor user data completion.        |
-| `data.aws_ami.component_ami`                                  | AWS AMI for components.                                   | 
 | `data.aws_caller_identity.current`                            | AWS Caller Identity of current user.                      |
 | `data.aws_partition.current`                                  | Current AWS partition.                                    |
 | `data.aws_region.current`                                     | Current AWS region.                                       |
@@ -94,7 +93,7 @@ For list objects, you can use `terraform state list` to get all objects within t
 | <a name="input_key_name"></a> [key\_name](#input\_key\_name) | The name of the EC2 key pair to use. Must be between 1 and 255 characters long and can only contain alphanumeric characters, hyphens (-), and underscores (_)." | `string` | `null` | yes |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id)| The ID of the subnet in which the EC2 instance will be launched. | `string` | `null` | yes |
 | <a name="input_vpc_security_group_ids"></a> [vpc\_security\_group\_ids](#input\_vpc\_security\_group\_ids) | list of security group IDs to associate with the EC2 instance.| `list(string)` | `null` | yes |
-| <a name="input_custom_ami_id"></a> [custom\_ami\_id](#input\_custom\_ami\_id)| Custom AMI ID to use instead of the default one. (Optional) | `string` | `null` | no |
+| <a name="input_component_ami_id"></a> [component\_ami\_id](#input\_component\_ami\_id)| AMI ID to use for the EC2 instance deployment. | `string` | `null` | yes |
 | <a name="input_primary_vault_ip"></a> [primary\_vault\_ip](#input\_primary\_vault\_ip) | The IP address of the primary Vault.| `string` | `null` | yes |
 | <a name="input_vault_dr_ip"></a> [vault\_dr\_ip](#input\_vault\_dr\_ip) | The IP address of Vault DR. | `string` | `null`  | yes |
 | <a name="input_instance_hostname"></a> [instance\_hostname](#input\_instance\_hostname) | The hostname for the EC2 instance. Must be 3 to 15 characters long, contain at least one letter, and must not start or end with a hyphen. | `string` | `null` | yes |

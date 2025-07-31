@@ -157,7 +157,7 @@ module "vault_instance" {
   key_name                       = var.key_name
   subnet_id                      = module.pam_network_main.private_subnets_map["Vault Main Subnet"].id
   vpc_security_group_ids         = [module.pam_network_main.security_group_ids["Vault"]]
-  custom_ami_id                  = var.vault_custom_ami_id
+  ami_id                         = var.vault_ami_id
   vault_files_bucket             = var.vault_files_bucket
   license_file                   = local.vault_license_file
   recovery_public_key_file       = local.vault_recovery_public_key_file
@@ -186,7 +186,7 @@ module "vault_dr_instance" {
   key_name                       = var.key_name
   subnet_id                      = module.pam_network_dr.private_subnets_map["Vault DR Subnet"].id
   vpc_security_group_ids         = [module.pam_network_dr.security_group_ids["Vault"]]
-  custom_ami_id                  = var.vault_dr_custom_ami_id
+  ami_id                         = var.vault_dr_ami_id
   primary_vault_ip               = module.vault_instance.instance_ip_address
   instance_hostname              = local.vaultdr_instance_hostname
   vault_dr_password              = var.vault_dr_password
@@ -211,7 +211,7 @@ module "pvwa_instance" {
   key_name                       = var.key_name
   subnet_id                      = module.pam_network_main.private_subnets_map["PVWA Main Subnet"].id
   vpc_security_group_ids         = [module.pam_network_main.security_group_ids["PVWA"]]
-  custom_ami_id                  = var.pvwa_custom_ami_id
+  ami_id                         = var.pvwa_ami_id
   primary_vault_ip               = module.vault_instance.instance_ip_address
   vault_dr_ip                    = module.vault_dr_instance.instance_ip_address
   instance_hostname              = local.pvwa_instance_hostname
@@ -234,7 +234,7 @@ module "cpm_instance" {
   key_name                       = var.key_name
   subnet_id                      = module.pam_network_main.private_subnets_map["CPM Main Subnet"].id
   vpc_security_group_ids         = [module.pam_network_main.security_group_ids["CPM"]]
-  custom_ami_id                  = var.cpm_custom_ami_id
+  ami_id                         = var.cpm_ami_id
   primary_vault_ip               = module.vault_instance.instance_ip_address
   vault_dr_ip                    = module.vault_dr_instance.instance_ip_address
   instance_hostname              = local.cpm_instance_hostname
@@ -257,7 +257,7 @@ module "psm_instance" {
   key_name                       = var.key_name
   subnet_id                      = module.pam_network_main.private_subnets_map["PSM Main Subnet"].id
   vpc_security_group_ids         = [module.pam_network_main.security_group_ids["PSM"]]
-  custom_ami_id                  = var.psm_custom_ami_id
+  ami_id                         = var.psm_ami_id
   primary_vault_ip               = module.vault_instance.instance_ip_address
   vault_dr_ip                    = module.vault_dr_instance.instance_ip_address
   instance_hostname              = local.psm_instance_hostname
@@ -280,7 +280,7 @@ module "psmp_instance" {
   key_name                       = var.key_name
   subnet_id                      = module.pam_network_main.private_subnets_map["PSMP Main Subnet"].id
   vpc_security_group_ids         = [module.pam_network_main.security_group_ids["PSMP"]]
-  custom_ami_id                  = var.psmp_custom_ami_id
+  ami_id                         = var.psmp_ami_id
   primary_vault_ip               = module.vault_instance.instance_ip_address
   vault_dr_ip                    = module.vault_dr_instance.instance_ip_address
   instance_hostname              = local.psmp_instance_hostname
@@ -303,7 +303,7 @@ module "pta_instance" {
   key_name                       = var.key_name
   subnet_id                      = module.pam_network_main.private_subnets_map["PTA Main Subnet"].id
   vpc_security_group_ids         = [module.pam_network_main.security_group_ids["PTA"]]
-  custom_ami_id                  = var.pta_custom_ami_id
+  ami_id                         = var.pta_ami_id
   primary_vault_ip               = module.vault_instance.instance_ip_address
   vault_dr_ip                    = module.vault_dr_instance.instance_ip_address
   pvwa_private_dns               = module.pvwa_instance.instance_private_dns
@@ -314,5 +314,5 @@ module "pta_instance" {
   log_group_name                 = module.deploy_prep_main.log_group_name
   manage_ssm_password_lambda     = module.deploy_prep_main.manage_ssm_password_lambda
   retrieve_success_signal_lambda = module.deploy_prep_main.retrieve_success_signal_lambda
-  depends_on                     = [module.pvwa_instance]
+  depends_on                     = [module.psm_instance, module.psmp_instance]
 }
