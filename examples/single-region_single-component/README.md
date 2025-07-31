@@ -55,7 +55,8 @@ Note that this example creates resources which can cost money (AWS EC2 Instance,
 | <a name="input_vault_dr_ip"></a> [vault\_dr\_ip](#input\_vault\_dr\_ip) | The IP address of Vault DR. (Optional) |
 | <a name="input_vault_admin_password"></a> [vault\_admin\_password](#input\_vault\_admin\_password) | Primary Vault Admin Password. |
 | <a name="input_pvwa_private_endpoint"></a> [pvwa\_private\_endpoint](#input\_pvwa\_private\_endpoint) | The PVWA's private DNS name (when deploying PTA) or private IP address of the PVWA instance (when deploying CPM). Other components do not require this parameter. |
-| <a name="input_component_custom_ami_id"></a> [component\_custom\_ami\_id](#input\_component\_custom\_ami\_id) | Custom AMI ID to use instead of the default one. (Optional) |
+| <a name="input_component_ami_id"></a> [component\_ami\_id](#input\_component\_ami\_id) | AMI ID to use for the EC2 instance deployment. |
+
 
 ## Outputs
 
@@ -72,63 +73,62 @@ Note that this example creates resources which can cost money (AWS EC2 Instance,
 
 ### Retrieve information about a resource (post deployment)
 You can use the `terraform state show` command followed by: `module.<module_name>.<resource_name>`  
-Example: `terraform state show 'module.aws_instance.component'`  
+Example: `terraform state show 'module.component_instance.aws_instance.component'`  
 For list objects, you can use `terraform state list` to get all objects within the list.
 
 #### **EC2 Instances**
 | Resource                              | Description                                    | Module       |
 |---------------------------------------|------------------------------------------------|--------------|
-| `aws_instance.component`              | Component EC2 instance resource.               | component    |
+| `aws_instance.component`              | Component EC2 instance resource.               | component_instance    |
 
 #### **CloudWatch Resources**
-| Resource                                                      | Description                                                | Module        |
-|---------------------------------------------------------------|------------------------------------------------------------|---------------|
-| `aws_cloudwatch_log_group.log_group`                          | CloudWatch log group.                                      | deploy_prep   |
-| `aws_cloudwatch_log_stream.additional_log_streams` (list)     | CloudWatch log streams for additional configuration.       | component     |
-| `aws_cloudwatch_log_stream.user_data_log_stream`              | CloudWatch log stream for user data logs.                  | component     |
+| Resource                                                      | Description                                                | Module                |
+|---------------------------------------------------------------|------------------------------------------------------------|-----------------------|
+| `aws_cloudwatch_log_group.log_group`                          | CloudWatch log group.                                      | deploy_prep           |
+| `aws_cloudwatch_log_stream.additional_log_streams` (list)     | CloudWatch log streams for additional configuration.       | component_instance    |
+| `aws_cloudwatch_log_stream.user_data_log_stream`              | CloudWatch log stream for user data logs.                  | component_instance    |
 
 #### **IAM Roles/Policies**
-| Resource                                                                                 | Description                                                     | Module         |
-|------------------------------------------------------------------------------------------|-----------------------------------------------------------------|----------------|
-| `aws_iam_instance_profile.instance_profile`                                              | IAM instance profile.                                           | component      |
-| `aws_iam_role.instance_role`                                                             | IAM role for the instance.                                      | component      |
-| `aws_iam_role.lambda_manage_ssm_password_role`                                           | IAM role for managing SSM password in Lambda.                   | deploy_prep    |
-| `aws_iam_role.lambda_remove_permissions_role`                                            | IAM role for removing permissions in Lambda.                    | deploy_prep    |
-| `aws_iam_role.lambda_retrieve_success_signal_role`                                       | IAM role for retrieving success signal in Lambda.               | deploy_prep    |
-| `aws_iam_role_policy.instance_cloudwatch_policy`                                         | IAM policy for CloudWatch logging.                              | component      |
-| `aws_iam_role_policy.instance_kms_policy`                                                | IAM policy for AWS KMS.                                         | component      |
-| `aws_iam_role_policy.instance_ssm_policy`                                                | IAM policy for SSM management.                                  | component      |
-| `aws_iam_role_policy.lambda_manage_ssm_password_policy`                                  | IAM policy for managing SSM password in Lambda.                 | deploy_prep    |
-| `aws_iam_role_policy.lambda_retrieve_success_signal_policy`                              | IAM policy for retrieving success signal in Lambda.             | deploy_prep    |
-| `aws_iam_role_policy_attachment.instance_ssm_managed_policy`                             | IAM role policy attachment for AWS managed SSM policy.          | component      |
-| `aws_iam_role_policy_attachment.lambda_manage_ssm_password_execution_managed_policy`     | IAM policy attachment for Lambda to manage SSM password.        | deploy_prep    |
-| `aws_iam_role_policy_attachment.lambda_remove_permissions_execution_managed_policy`      | IAM policy attachment for Lambda to remove permissions.         | deploy_prep    |
-| `aws_iam_role_policy_attachment.lambda_retrieve_success_signal_execution_managed_policy` | IAM policy attachment for Lambda to retrieve success signal.    | deploy_prep    |
-| `data.aws_iam_policy_document.instance_assume_role_policy`                               | IAM policy document defining instance assume role policy.       | component      |
-| `data.aws_iam_policy_document.lambda_assume_role_policy`                                 | IAM policy document for Lambda assume role.                     | deploy_prep    |
+| Resource                                                                                 | Description                                                     | Module                |
+|------------------------------------------------------------------------------------------|-----------------------------------------------------------------|-----------------------|
+| `aws_iam_instance_profile.instance_profile`                                              | IAM instance profile.                                           | component_instance    |
+| `aws_iam_role.instance_role`                                                             | IAM role for the instance.                                      | component_instance    |
+| `aws_iam_role.lambda_manage_ssm_password_role`                                           | IAM role for managing SSM password in Lambda.                   | deploy_prep           |
+| `aws_iam_role.lambda_remove_permissions_role`                                            | IAM role for removing permissions in Lambda.                    | deploy_prep           |
+| `aws_iam_role.lambda_retrieve_success_signal_role`                                       | IAM role for retrieving success signal in Lambda.               | deploy_prep           |
+| `aws_iam_role_policy.instance_cloudwatch_policy`                                         | IAM policy for CloudWatch logging.                              | component_instance    |
+| `aws_iam_role_policy.instance_kms_policy`                                                | IAM policy for AWS KMS.                                         | component_instance    |
+| `aws_iam_role_policy.instance_ssm_policy`                                                | IAM policy for SSM management.                                  | component_instance    |
+| `aws_iam_role_policy.lambda_manage_ssm_password_policy`                                  | IAM policy for managing SSM password in Lambda.                 | deploy_prep           |
+| `aws_iam_role_policy.lambda_retrieve_success_signal_policy`                              | IAM policy for retrieving success signal in Lambda.             | deploy_prep           |
+| `aws_iam_role_policy_attachment.instance_ssm_managed_policy`                             | IAM role policy attachment for AWS managed SSM policy.          | component_instance    |
+| `aws_iam_role_policy_attachment.lambda_manage_ssm_password_execution_managed_policy`     | IAM policy attachment for Lambda to manage SSM password.        | deploy_prep           |
+| `aws_iam_role_policy_attachment.lambda_remove_permissions_execution_managed_policy`      | IAM policy attachment for Lambda to remove permissions.         | deploy_prep           |
+| `aws_iam_role_policy_attachment.lambda_retrieve_success_signal_execution_managed_policy` | IAM policy attachment for Lambda to retrieve success signal.    | deploy_prep           |
+| `data.aws_iam_policy_document.instance_assume_role_policy`                               | IAM policy document defining instance assume role policy.       | component_instance    |
+| `data.aws_iam_policy_document.lambda_assume_role_policy`                                 | IAM policy document for Lambda assume role.                     | deploy_prep           |
 
 #### **Lambda Resources**
-| Resource                                             | Description                                                   | Module         |
-|------------------------------------------------------|---------------------------------------------------------------|----------------|
-| `aws_lambda_function.manage_ssm_password_lambda`     | Lambda for managing SSM password.                             | deploy_prep    |
-| `aws_lambda_function.remove_permissions_lambda`      | Lambda for removing permissions.                              | deploy_prep    |
-| `aws_lambda_function.retrieve_success_signal_lambda` | Lambda for retrieving success signal.                         | deploy_prep    |
-| `aws_lambda_invocation.remove_admin_password`	       | Lambda invocation for removing admin password.	               | component      |
-| `aws_lambda_invocation.store_admin_password`	       | Lambda invocation for storing admin password.	               | component      |
-| `aws_lambda_invocation.wait_for_userdata_completion` | Lambda invocation to monitor user data completion.            | component      |
+| Resource                                             | Description                                                   | Module                |
+|------------------------------------------------------|---------------------------------------------------------------|-----------------------|
+| `aws_lambda_function.manage_ssm_password_lambda`     | Lambda for managing SSM password.                             | deploy_prep           |
+| `aws_lambda_function.remove_permissions_lambda`      | Lambda for removing permissions.                              | deploy_prep           |
+| `aws_lambda_function.retrieve_success_signal_lambda` | Lambda for retrieving success signal.                         | deploy_prep           |
+| `aws_lambda_invocation.remove_admin_password`	       | Lambda invocation for removing admin password.	               | component_instance    |
+| `aws_lambda_invocation.store_admin_password`	       | Lambda invocation for storing admin password.	               | component_instance    |
+| `aws_lambda_invocation.wait_for_userdata_completion` | Lambda invocation to monitor user data completion.            | component_instance    |
 
 #### **Miscellaneous**
-| Resource                                          | Description                                                 | Module                  |
-|---------------------------------------------------|-------------------------------------------------------------|-------------------------|
-| `data.archive_file.manage_ssm_password_zip`       | Archive file for managing SSM passwords.                    | deploy_prep             |
-| `data.archive_file.remove_permissions_zip`        | Archive file for removing permissions.                      | deploy_prep             |
-| `data.archive_file.retrieve_success_signal_zip`   | Archive file for retrieving success signal.                 | deploy_prep             |
-| `data.aws_ami.component_ami`                      | AWS AMI for components.                                     | component               |
-| `data.aws_caller_identity.current`                | AWS Caller Identity of current user.                        | component, deploy_prep  |
-| `data.aws_partition.current`                      | Current AWS partition.                                      | component, deploy_prep  |
-| `data.aws_region.current`                         | Current AWS region.                                         | component, deploy_prep  |
-| `null_resource.always_recreate`                   | Triggers resource recreation.                               | component, deploy_prep  |
-| `null_resource.userdata_updated`                  | Manages updates to user data.                               | component               |
-| `random_string.deployment_uid`                    | Unique identifier for deployment.                           | component, deploy_prep  |
+| Resource                                          | Description                                                 | Module                           |
+|---------------------------------------------------|-------------------------------------------------------------|----------------------------------|
+| `data.archive_file.manage_ssm_password_zip`       | Archive file for managing SSM passwords.                    | deploy_prep                      |
+| `data.archive_file.remove_permissions_zip`        | Archive file for removing permissions.                      | deploy_prep                      |
+| `data.archive_file.retrieve_success_signal_zip`   | Archive file for retrieving success signal.                 | deploy_prep                      |
+| `data.aws_caller_identity.current`                | AWS Caller Identity of current user.                        | component_instance, deploy_prep  |
+| `data.aws_partition.current`                      | Current AWS partition.                                      | component_instance, deploy_prep  |
+| `data.aws_region.current`                         | Current AWS region.                                         | component_instance, deploy_prep  |
+| `null_resource.always_recreate`                   | Triggers resource recreation.                               | component_instance, deploy_prep  |
+| `null_resource.userdata_updated`                  | Manages updates to user data.                               | component_instance               |
+| `random_string.deployment_uid`                    | Unique identifier for deployment.                           | component_instance, deploy_prep  |
 
 <!-- END_TF_DOCS -->

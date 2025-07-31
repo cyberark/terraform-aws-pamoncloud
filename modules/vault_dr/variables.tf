@@ -99,13 +99,12 @@ variable "vault_dr_secret" {
   }
 }
 
-variable "custom_ami_id" {
-  description = "Custom AMI ID to use instead of the default one. (Optional)"
+variable "ami_id" {
+  description = "AMI ID to use for the EC2 instance deployment."
   type        = string
-  default     = ""
   validation {
-    condition     = var.custom_ami_id == "" || can(regex("^ami-[a-f\\d]{8}(?:[a-f\\d]{9})?$|.{0,0}", var.custom_ami_id))
-    error_message = "Custom AMI ID must start with 'ami-' followed by 8/17 hexadecimal digits."
+    condition     = can(regex("^ami-[a-f\\d]{8}(?:[a-f\\d]{9})?$|.{0,0}", var.ami_id))
+    error_message = "AMI ID must start with 'ami-' followed by 8/17 hexadecimal digits."
   }
 }
 

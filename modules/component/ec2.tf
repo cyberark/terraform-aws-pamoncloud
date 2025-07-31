@@ -1,7 +1,7 @@
 #### Provision Component Instance
 
 resource "aws_instance" "component" {
-  ami                    = var.custom_ami_id
+  ami                    = var.ami_id
   instance_type          = var.instance_type
   key_name               = var.key_name
   subnet_id              = var.subnet_id

@@ -13,7 +13,7 @@ module "vault_dr_instance" {
   key_name                       = "vault-key" 
   subnet_id                      = "subnet-0bb1c79de3EXAMPLE"
   vpc_security_group_ids         = ["sg-0bb1c79de3EXAMPLE"]
-  custom_ami_id                  = "ami-0a9c30a2EXAMPLE"
+  ami_id                         = "ami-0a9c30a2EXAMPLE"
   primary_vault_ip               = "10.0.0.1"
   instance_hostname              = "vault-dr"
   vault_dr_password              = "vault_dr_password"
@@ -99,7 +99,7 @@ For list objects, you can use `terraform state list` to get all objects within t
 | <a name="input_key_name"></a> [key\_name](#input_key\_name) | The name of the EC2 key pair to use. Must be between 1 and 255 characters long and can only contain alphanumeric characters, hyphens (-), and underscores (_). | `string` | `null` | yes |
 | <a name="input_subnet_id"></a> [subnet\_id](#input_subnet\_id) | The ID of the subnet in which the EC2 instance will be launched. | `string` | `null` | yes |
 | <a name="input_vpc_security_group_ids"></a> [vpc\_security\_group\_ids](#input_vpc\_security\_group\_ids) | A list of security group IDs to associate with the EC2 instance. | `list(string)` | `null` | yes |
-| <a name="input_custom_ami_id"></a> [custom\_ami\_id](#input_custom\_ami\_id) | Custom AMI ID to use instead of the default one. (Optional) | `string` | `null` | no |
+| <a name="input_vault_dr_ami_id"></a> [vault\_dr\_ami\_id](#input\_vault\_dr\_ami\_id)| AMI ID to use for the EC2 instance deployment. | `string` | `null` | yes |
 | <a name="input_primary_vault_ip"></a> [primary\_vault\_ip](#input_primary\_vault\_ip) | "The IP address of the primary Vault. | `string` | `null` | yes |
 | <a name="input_vault_dr_password"></a> [vault\_dr\_password](#input_vault\_dr\_password) | Vault DR User Password. | `string` | `null` | yes |
 | <a name="input_vault_dr_secret "></a> [vault\_dr\_secret](#input_vault\_dr\_secret) | Vault DR User Secret | `string` | `null` | yes |
