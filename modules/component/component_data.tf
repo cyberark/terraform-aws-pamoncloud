@@ -17,7 +17,6 @@ locals {
           "VaultAdminUser"                = "${var.vault_admin_username}"
           "SSMAdminPassParameterID"       = "${local.admin_password_ssm_id}"
           "VaultPrivateIP"                = "${local.vault_ips}"
-          "PVWAPrivateIP"                 = "${var.pvwa_private_endpoint}"
           "ComponentHostname"             = "${var.instance_hostname}"
         }
 
@@ -44,6 +43,7 @@ locals {
           "VaultAdminUser"                = "${var.vault_admin_username}"
           "SSMAdminPassParameterID"       = "${local.admin_password_ssm_id}"
           "VaultPrivateIP"                = "${local.vault_ips}"
+          "PVWAPrivateIP"                 = "${var.pvwa_private_endpoint}"
           "ComponentHostname"             = "${var.instance_hostname}"
         }
 
@@ -65,6 +65,7 @@ locals {
           "UserDataLogStream"             = "${local.user_data_log_stream}"
           "PSMConfigurationLogStream"     = "PSM/PSMConfigurationLog"
           "PSMRegistrationLogStream"      = "PSM/PSMRegistrationLog"
+          "PSMHardeningLogStream"         = "PSM/PSMHardeningLog"
           "VaultAdminUser"                = "${var.vault_admin_username}"
           "SSMAdminPassParameterID"       = "${local.admin_password_ssm_id}"
           "VaultPrivateIP"                = "${local.vault_ips}"
