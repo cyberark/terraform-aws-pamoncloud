@@ -6,6 +6,10 @@ output "log_group_name" {
   value = local.log_group_name
 }
 
+output "log_group_arn" {
+  value = resource.aws_cloudwatch_log_group.log_group.arn
+}
+
 output "manage_ssm_password_lambda" {
   value = {
     function_name = aws_lambda_function.manage_ssm_password_lambda.function_name

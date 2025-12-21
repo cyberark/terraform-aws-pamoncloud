@@ -88,13 +88,14 @@ For list objects, you can use `terraform state list` to get all objects within t
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_instance_name"></a> [instance\_name](#input\_instance\_name)| The name of the EC2 instance | `string` | `null` | yes |
+| <a name="input_deployment_identifier"></a> [deployment\_identifier](#input\_deployment\_identifier)| A string used to name resources that require unique names. If not provided, a random string will be generated. | `string` | `null` | no |
+| <a name="input_instance_name"></a> [instance\_name](#input\_instance\_name)| The name of the EC2 instance. | `string` | `null` | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type)| The type of the EC2 instance. | `string` | `null`| yes |
 | <a name="input_key_name"></a> [key\_name](#input\_key\_name) | The name of the EC2 key pair to use. Must be between 1 and 255 characters long and can only contain alphanumeric characters, hyphens (-), and underscores (_)." | `string` | `null` | yes |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id)| The ID of the subnet in which the EC2 instance will be launched. | `string` | `null` | yes |
-| <a name="input_vpc_security_group_ids"></a> [vpc\_security\_group\_ids](#input\_vpc\_security\_group\_ids) | list of security group IDs to associate with the EC2 instance.| `list(string)` | `null` | yes |
-| <a name="input_component_ami_id"></a> [component\_ami\_id](#input\_component\_ami\_id)| AMI ID to use for the EC2 instance deployment. | `string` | `null` | yes |
-| <a name="input_primary_vault_ip"></a> [primary\_vault\_ip](#input\_primary\_vault\_ip) | The IP address of the primary Vault.| `string` | `null` | yes |
+| <a name="input_vpc_security_group_ids"></a> [vpc\_security\_group\_ids](#input\_vpc\_security\_group\_ids) | list of security group IDs to associate with the EC2 instance. | `list(string)` | `null` | yes |
+| <a name="input_ami_id"></a> [ami\_id](#input\_ami\_id)| AMI ID to use for the EC2 instance deployment. | `string` | `null` | yes |
+| <a name="input_primary_vault_ip"></a> [primary\_vault\_ip](#input\_primary\_vault\_ip) | The IP address of the primary Vault. | `string` | `null` | yes |
 | <a name="input_vault_dr_ip"></a> [vault\_dr\_ip](#input\_vault\_dr\_ip) | The IP address of Vault DR. | `string` | `null`  | yes |
 | <a name="input_instance_hostname"></a> [instance\_hostname](#input\_instance\_hostname) | The hostname for the EC2 instance. Must be 3 to 15 characters long, contain at least one letter, and must not start or end with a hyphen. | `string` | `null` | yes |
 | <a name="input_component"></a> [component](#input\_component) | The name of the PAM component. Supported values: `PVWA`, `CPM`, `PSM`, `PSMP`, `PTA`. | `string` | `null` | yes |

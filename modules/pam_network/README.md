@@ -1,6 +1,6 @@
 # PAMonCloud for AWS - Network Terraform Module
 
-This module creates all necessary network resources required for the deployment process on AWS. It includes creating VPCs, subnets, route tables, security groups, and VPC endpoints.
+This module creates all necessary network resources required for the deployment process on AWS. It includes creating VPCs, VPN, subnets, route tables, security groups, and VPC endpoints.
 
 ## Usage
 
@@ -51,29 +51,31 @@ You can use the `terraform state show` command followed by: `module.<module_name
 Example: `terraform state show 'module.pam_network.aws_network_acl.vault_nacl'`  
 For list objects, you can use `terraform state list` to get all objects within the list.
 
-| Name                                             | Description                                             |
-|--------------------------------------------------|---------------------------------------------------------|
-| `aws_network_acl.vault_nacl`                     | Vault network ACL.                                      |
-| `aws_security_group.security_group` (list)       | List of Security groups for all instances.              |
-| `aws_security_group_rule.rules_with_cidr` (list) | List of security group rules with CIDR blocks.          |
-| `aws_default_network_acl.this[0]`                | Default network ACL for the VPC.                        |
-| `aws_default_route_table.default[0]`             | Default route table for the VPC.                        |
-| `aws_default_security_group.this[0]`             | Default security group for the VPC.                     |
-| `aws_eip.nat`                                    | Elastic IP for the NAT gateway.                         |
-| `aws_internet_gateway.this[0]`                   | Internet gateway for the VPC.                           |
-| `aws_nat_gateway.this[0]`                        | NAT gateway for the VPC.                                |
-| `aws_route.private_nat_gateway[0]`               | Route for private subnets to the NAT gateway.           |
-| `aws_route.public_internet_gateway[0]`           | Route for public subnets to the internet gateway.       |
-| `aws_route_table.private[0]`                     | Route table for private subnets.                        |
-| `aws_route_table.public[0]`                      | Route table for public subnets.                         |
-| `aws_route_table_association.private` (list)     | List of route table associations for private subnets.   |
-| `aws_route_table_association.public[0]`          | Route table association for public subnets.             |
-| `aws_subnet.private` (list)                      | List of private subnets.                                |
-| `aws_subnet.public[0]`                           | Public subnet.                                          | 
-| `aws_vpc.this[0]`                                | The VPC resource.                                       |
-| `null_resource.always_recreate`                  | Triggers resource recreation.                           |
-| `data.aws_availability_zones.available`          | AWS availability zones information.                     |
-| `data.aws_region.current`                        | Current AWS region.                                     |
+| Name                                                              | Description                                           |
+|-------------------------------------------------------------------|-------------------------------------------------------|
+| `aws_network_acl.vault_nacl`                                      | Vault network ACL.                                    |
+| `aws_security_group.security_group` (list)                        | List of Security groups for all instances.            |
+| `aws_security_group_rule.rules_with_cidr` (list)                  | List of security group rules with CIDR blocks.        |
+| `aws_default_network_acl.this[0]`                                 | Default network ACL for the VPC.                      |
+| `aws_default_route_table.default[0]`                              | Default route table for the VPC.                      |
+| `aws_default_security_group.this[0]`                              | Default security group for the VPC.                   |
+| `aws_eip.nat`                                                     | Elastic IP for the NAT gateway.                       |
+| `aws_internet_gateway.this[0]`                                    | Internet gateway for the VPC.                         |
+| `aws_nat_gateway.this[0]`                                         | NAT gateway for the VPC.                              |
+| `aws_route.private_nat_gateway[0]`                                | Route for private subnets to the NAT gateway.         |
+| `aws_route.public_internet_gateway[0]`                            | Route for public subnets to the internet gateway.     |
+| `aws_route_table.private[0]`                                      | Route table for private subnets.                      |
+| `aws_route_table.public[0]`                                       | Route table for public subnets.                       |
+| `aws_route_table_association.private` (list)                      | List of route table associations for private subnets. |
+| `aws_route_table_association.public[0]`                           | Route table association for public subnets.           |
+| `aws_subnet.private` (list)                                       | List of private subnets.                              |
+| `aws_subnet.public[0]`                                            | Public subnet.                                        | 
+| `aws_vpc.this[0]`                                                 | The VPC resource.                                     |
+| `null_resource.always_recreate`                                   | Triggers resource recreation.                         |
+| `data.aws_availability_zones.available`                           | AWS availability zones information.                   |
+| `data.aws_region.current`                                         | Current AWS region.                                   |
+| `module.pam_vpc.aws_vpn_gateway.this[0]`                          | VPN gateway.                                          |
+| `module.pam_vpc.aws_vpn_gateway_route_propagation.private` (list) | VPN gateway route propagation.                        |
 
 ## Inputs
 
@@ -83,6 +85,9 @@ For list objects, you can use `terraform state list` to get all objects within t
 | <a name="input_users_access_cidr"></a> [users\_access\_cidr](#input\_users\_access\_cidr) | Allowed IPv4 address range for users access to CyberArk components. Must be a valid IP CIDR range of the form x.x.x.x/x. | `string` | `null` | yes |
 | <a name="input_administrative_access_cidr"></a> [administrative\_access\_cidr](#input\_administrative\_access\_cidr) | Allowed IPv4 address range for Remote Desktop administrative access to CyberArk instances. Must be a valid IP CIDR range of the form x.x.x.x/x. | `string` | `null` | yes |
 | <a name="input_network_type"></a> [network\_type](#input\_network\_type) | The type of networking to deploy. Valid options: 'privatelink' or 'nat' | `string` | `null` | yes |
+| <a name="input_vpn_customer_gateway_address"></a> [vpn\_customer\_gateway\_address](#input\_vpn\_customer\_gateway\_address) | Public IP address of the remote network. | `string` | `null` | no |
+| <a name="input_vpn_external_vault_cidr"></a> [vpn\_external\_vault\_cidr](#input\_vpn\_external\_vault\_cidr) | IPv4 address range of the remote network hosting the external Vault. | `string` | `null` | no |
+| <a name="input_log_group_arn"></a> [log\_group\_arn](#input\_log\_group\_arn) | ARN of the CloudWatch log group. | `string` | `null` | no |
 
 ## Outputs
 
@@ -96,5 +101,8 @@ For list objects, you can use `terraform state list` to get all objects within t
 | <a name="output_security_group_ids"></a> [security\_group\_ids](#output\_security\_group\_ids) | Security Group IDs for all components |
 | <a name="output_private_subnets_map"></a> [private\_subnets\_map](#output\_private\_subnets\_map) | A map of subnet details (id and cidr_block) by name |
 | <a name="output_sg_rules"></a> [sg\_rules](#output\_sg\_rules) | Amazon Resource Name (ARN) of the security group |
+| <a name="output_vpn_gateway_id"></a> [vpn\_gateway\_id](#output\_vpn\_gateway\_id) | VPN gateway ID. |
+| <a name="output_vpn_connection_id"></a> [vpn\_connection\_id](#output\_vpn\_connection\_id) | VPN connection ID. |
+| <a name="output_vpn_vgw_telemetry"></a> [vpn\_vgw\_telemetry](#output\_vpn\_vgw\_telemetry) | VPN tunnels telemetry. |
 
 <!-- END_TF_DOCS -->

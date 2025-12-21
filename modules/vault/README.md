@@ -99,6 +99,7 @@ For list objects, you can use `terraform state list` to get all objects within t
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_deployment_identifier"></a> [deployment\_identifier](#input\_deployment\_identifier)| A string used to name resources that require unique names. If not provided, a random string will be generated. | `string` | `null` | no |
 | <a name="input_instance_name"></a> [instance\_name](#input_instance\_name) | The name of the EC2 instance. | `string` | `null` | yes |
 | <a name="input_instance_hostname"></a> [instance\_hostname](#input_instance\_hostname) | The hostname for the EC2 instance. | `string` | `null` | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input_instance\_type) | The type of the EC2 instance. | `string` | `null` | yes |
@@ -112,7 +113,7 @@ For list objects, you can use `terraform state list` to get all objects within t
 | <a name="input_vault_files_bucket"></a> [vault\_files\_bucket](#input_vault\_files\_bucket) | The name of the S3 bucket where Vault license and recovery key are stored. | `string` | `null` | yes |
 | <a name="input_license_file"></a> [license\_file](#input_license\_file) | The name of the license file stored in the S3 bucket. | `string` | `license.xml` | no |
 | <a name="input_recovery_public_key_file"></a> [recovery\_public\_key\_file](#input_recovery\_public\_key\_file) | The name of the recovery public key file stored in the S3 bucket. | `string` | `recpub.key` | no |
-| <a name="input_vault_ami_id"></a> [vault\_ami\_id](#input\_vault\_ami\_id)| AMI ID to use for the EC2 instance deployment. | `string` | `null` | yes |
+| <a name="input_ami_id"></a> [ami\_id](#input\_ami\_id)| AMI ID to use for the EC2 instance deployment. | `string` | `null` | yes |
 | <a name="input_log_group_name"></a> [log\_group\_name](#input_log\_group\_name) | The name of the CloudWatch log group. | `string` | `null` | yes |
 | <a name="input_manage_ssm_password_lambda"></a> [manage\_ssm\_password\_lambda](#input_manage\_ssm\_password\_lambda) | Required specs for the Lambda function that manages SSM passwords. | `object({ function_name = string })` | `null` | yes |
 | <a name="input_retrieve_success_signal_lambda"></a> [retrieve\_success\_signal\_lambda](#input_retrieve\_success\_signal\_lambda) | Required specs for the Lambda function that retrieves success signals. | `object({ function_name = string })` | `null` | yes |

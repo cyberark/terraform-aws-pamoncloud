@@ -1,6 +1,15 @@
 # CyberArk PAMonCloud Terraform Package Release Notes
 The PAMonCloud Terraform package includes CyberArk PAM product implementations, delivered as Terraform modules and examples to automate deployment on AWS. This solution provides enhanced flexibility and scalability for deploying core PAM components and associated infrastructure.
 
+## [PAMonCloud Terraform on AWS v15.0] (15.12.2025)
+
+### Added
+- Global tag for all Terraform assets. There are three new tags:
+    Terraform plan creation date (unique and can be used to filter a specific env)
+    Creator = CyberArk PAMonCloud via Terraform
+    Region_Role = Primary/DR
+- Single region complete PAM deployment with external Vault using site to site VPN.
+
 ## [PAMonCloud Terraform on AWS v14.6] (1.7.2025)
 
 ### Changed

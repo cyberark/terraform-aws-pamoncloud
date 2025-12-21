@@ -1,3 +1,10 @@
+# General outputs
+
+output "common_tags" {
+  description = "Common tags assigned to all resources."
+  value       = local.common_tags
+}
+
 # deploy_prep outputs
 
 output "deployment_uid" {

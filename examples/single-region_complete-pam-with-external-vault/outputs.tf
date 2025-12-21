@@ -54,40 +54,14 @@ output "private_subnets_map" {
   value       = module.pam_network.private_subnets_map
 }
 
-# vault_instance outputs
-
-output "vault_instance_ip_address" {
-  value = module.vault_instance.instance_ip_address
+output "vpn_gateway_id" {
+  description = "VPN gateway ID"
+  value       = module.pam_network.vpn_gateway_id
 }
 
-output "vault_instance_private_dns" {
-  value = module.vault_instance.instance_private_dns
-}
-
-output "vault_instance_id" {
-  value = module.vault_instance.instance_id
-}
-
-output "vault_instance_hostname" {
-  value = module.vault_instance.instance_hostname
-}
-
-# vault_dr_instance outputs
-
-output "vault_dr_instance_ip_address" {
-  value = module.vault_dr_instance.instance_ip_address
-}
-
-output "vault_dr_instance_private_dns" {
-  value = module.vault_dr_instance.instance_private_dns
-}
-
-output "vault_dr_instance_id" {
-  value = module.vault_dr_instance.instance_id
-}
-
-output "vault_dr_instance_hostname" {
-  value = module.vault_dr_instance.instance_hostname
+output "vpn_connection_id" {
+  description = "VPN connection ID"
+  value       = module.pam_network.vpn_connection_id
 }
 
 # pvwa_instance outputs

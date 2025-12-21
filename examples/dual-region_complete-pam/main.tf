@@ -18,6 +18,10 @@ locals {
   }
 
   # General locals
+  common_tags = {
+    Creator               = "CyberArk PAMonCloud via Terraform"
+    Tf_Plan_Creation_Date = plantimestamp()
+  }
   vault_admin_username = "Administrator"
 
   # Primary Vault locals
@@ -61,11 +65,46 @@ locals {
 provider "aws" {
   region = local.regions.main_region.name
   alias  = "main"
+
+  default_tags {
+    tags = merge(
+      local.common_tags,
+      {
+        Region_Role = "Primary"
+      }
+    )
+  }
 }
 
 provider "aws" {
   region = local.regions.dr_region.name
   alias  = "dr"
+
+  default_tags {
+    tags = merge(
+      local.common_tags,
+      {
+        Region_Role = "DR"
+      }
+    )
+  }
+}
+
+################################################################################
+# deploy_prerequisites Module
+################################################################################
+module "deploy_prep_main" {
+  source = "../../modules/deploy_prerequisites"
+  providers = {
+    aws = aws.main
+  }
+}
+
+module "deploy_prep_dr" {
+  source = "../../modules/deploy_prerequisites"
+  providers = {
+    aws = aws.dr
+  }
 }
 
 ################################################################################
@@ -91,23 +130,6 @@ module "pam_network_dr" {
   network_type               = local.regions.dr_region.network_type
   users_access_cidr          = local.regions.dr_region.users_access_cidr
   administrative_access_cidr = local.regions.dr_region.administrative_access_cidr
-}
-
-################################################################################
-# deploy_prerequisites Module
-################################################################################
-module "deploy_prep_main" {
-  source = "../../modules/deploy_prerequisites"
-  providers = {
-    aws = aws.main
-  }
-}
-
-module "deploy_prep_dr" {
-  source = "../../modules/deploy_prerequisites"
-  providers = {
-    aws = aws.dr
-  }
 }
 
 ################################################################################
@@ -152,6 +174,7 @@ module "vault_instance" {
   providers = {
     aws = aws.main
   }
+  deployment_identifier          = module.deploy_prep_main.deployment_uid
   instance_name                  = local.vault_instance_name
   instance_type                  = local.vault_instance_type
   key_name                       = var.key_name
@@ -181,6 +204,7 @@ module "vault_dr_instance" {
   providers = {
     aws = aws.dr
   }
+  deployment_identifier          = module.deploy_prep_dr.deployment_uid
   instance_name                  = local.vaultdr_instance_name
   instance_type                  = local.vaultdr_instance_type
   key_name                       = var.key_name
@@ -206,6 +230,7 @@ module "pvwa_instance" {
   providers = {
     aws = aws.main
   }
+  deployment_identifier          = module.deploy_prep_main.deployment_uid
   instance_name                  = local.pvwa_instance_name
   instance_type                  = local.pvwa_instance_type
   key_name                       = var.key_name
@@ -229,6 +254,7 @@ module "cpm_instance" {
   providers = {
     aws = aws.main
   }
+  deployment_identifier          = module.deploy_prep_main.deployment_uid
   instance_name                  = local.cpm_instance_name
   instance_type                  = local.cpm_instance_type
   key_name                       = var.key_name
@@ -253,6 +279,7 @@ module "psm_instance" {
   providers = {
     aws = aws.main
   }
+  deployment_identifier          = module.deploy_prep_main.deployment_uid
   instance_name                  = local.psm_instance_name
   instance_type                  = local.psm_instance_type
   key_name                       = var.key_name
@@ -276,6 +303,7 @@ module "psmp_instance" {
   providers = {
     aws = aws.main
   }
+  deployment_identifier          = module.deploy_prep_main.deployment_uid
   instance_name                  = local.psmp_instance_name
   instance_type                  = local.psmp_instance_type
   key_name                       = var.key_name
@@ -299,6 +327,7 @@ module "pta_instance" {
   providers = {
     aws = aws.main
   }
+  deployment_identifier          = module.deploy_prep_main.deployment_uid
   instance_name                  = local.pta_instance_name
   instance_type                  = local.pta_instance_type
   key_name                       = var.key_name

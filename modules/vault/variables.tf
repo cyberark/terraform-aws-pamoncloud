@@ -1,3 +1,13 @@
+variable "deployment_identifier" {
+  description = "A string used to name resources that require unique names. If not provided, a random string will be generated."
+  type        = string
+  default     = ""
+  validation {
+    condition     = var.deployment_identifier == "" || can(regex("^[a-z0-9]{1,12}$", var.deployment_identifier))
+    error_message = "Deployment identifier must be between 1 and 12 characters long and can only contain lowercase letters and numbers."
+  }
+}
+
 variable "instance_name" {
   description = "The name of the EC2 instance."
   type        = string

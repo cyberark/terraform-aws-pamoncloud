@@ -62,6 +62,7 @@ Note that this example creates resources which can cost money (AWS EC2 Instance,
 
 | Name | Module | Description |
 |------|--------|-------------|
+| <a name="output_common_tags"></a> [common\_tags](#output\_common\_tags) | N/A | Common tags assigned to all resources. |
 | <a name="output_deployment_uid"></a> [deployment\_uid](#output\_deployment\_uid) | deploy_prerequisites | Deployment Unique ID. |
 | <a name="output_log_group_name"></a> [log\_group\_name](#output\_log\_group\_name) | deploy_prerequisites | CloudWatch Log Group name. |
 | <a name="output_component_instance_ip_address"></a> [component\_instance\_ip\_address](#output\_component\_instance\_ip\_address) | component | Component instance IP address. |

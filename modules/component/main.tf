@@ -12,6 +12,7 @@ locals {
   success_signal        = local.component_data[var.component].success_signal
   log_streams           = local.component_data[var.component].log_streams
   user_data             = local.component_data[var.component].user_data
+  deployment_uid        = var.deployment_identifier == "" ? random_string.deployment_uid.result : var.deployment_identifier
 }
 
 resource "null_resource" "always_recreate" {

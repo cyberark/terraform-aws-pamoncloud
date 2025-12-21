@@ -87,7 +87,7 @@ locals {
         sudo /opt/CD-Image/register.sh \
           "aws" \
           "${local.vault_ips}" \
-          "${random_string.deployment_uid.result}" \
+          "${local.deployment_uid}" \
           "ec2-user" \
           "${var.vault_admin_username}" \
           "${local.admin_password_ssm_id}" \

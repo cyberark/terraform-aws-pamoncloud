@@ -8,23 +8,11 @@ locals {
 
   # General locals
   common_tags = {
-    Creator               = "CyberArk PAMonCloud via Terraform"
-    Region_Role           = "Primary"
+    Creator     = "CyberArk PAMonCloud via Terraform"
+    Region_Role = "Primary"
     Tf_Plan_Creation_Date = plantimestamp()
   }
   vault_admin_username = "Administrator"
-
-  # Primary Vault locals
-  vault_instance_name            = "[PAMonCloud_TF] Primary Vault"
-  vault_instance_type            = "m5.2xlarge"
-  vault_license_file             = "license.xml"
-  vault_recovery_public_key_file = "recpub.key"
-  vault_instance_hostname        = "vault"
-
-  # DR Vault locals
-  vaultdr_instance_name     = "[PAMonCloud_TF] Vault DR"
-  vaultdr_instance_type     = "m5.2xlarge"
-  vaultdr_instance_hostname = "vault-dr"
 
   # PVWA locals
   pvwa_instance_name     = "[PAMonCloud_TF] PVWA"
@@ -76,56 +64,36 @@ module "pam_network" {
   network_type               = local.network_type
   users_access_cidr          = local.users_access_cidr
   administrative_access_cidr = local.administrative_access_cidr
+  # VPN related vars:
+  vpn_customer_gateway_address = var.vpn_customer_gateway_address
+  vpn_external_vault_cidr      = var.vpn_external_vault_cidr
+  log_group_arn                = module.deploy_prep.log_group_arn
 }
 
 ################################################################################
-# vault Module
+# VPN connection (tunnels) readiness
 ################################################################################
-module "vault_instance" {
-  source                         = "../../modules/vault"
-  deployment_identifier          = module.deploy_prep.deployment_uid
-  instance_name                  = local.vault_instance_name
-  instance_type                  = local.vault_instance_type
-  key_name                       = var.key_name
-  subnet_id                      = module.pam_network.private_subnets_map["Vault Main Subnet"].id
-  vpc_security_group_ids         = [module.pam_network.security_group_ids["Vault"]]
-  ami_id                         = var.vault_ami_id
-  vault_files_bucket             = var.vault_files_bucket
-  license_file                   = local.vault_license_file
-  recovery_public_key_file       = local.vault_recovery_public_key_file
-  instance_hostname              = local.vault_instance_hostname
-  vault_master_password          = var.vault_master_password
-  vault_admin_password           = var.vault_admin_password
-  vault_dr_password              = var.vault_dr_password
-  vault_dr_secret                = var.vault_dr_secret
-  log_group_name                 = module.deploy_prep.log_group_name
-  manage_ssm_password_lambda     = module.deploy_prep.manage_ssm_password_lambda
-  retrieve_success_signal_lambda = module.deploy_prep.retrieve_success_signal_lambda
-  remove_permissions_lambda      = module.deploy_prep.remove_permissions_lambda
-  depends_on                     = [module.deploy_prep, module.pam_network]
+locals {
+  tunnels_status = try([for tunnel in module.pam_network.vpn_vgw_telemetry : tunnel.status], [])
+  tunnels_status_summary = join(", ", [for status in local.tunnels_status : upper(status)])
+  all_tunnels_up  = length([for status in local.tunnels_status : status if upper(status) == "UP"]) == 2
 }
 
-################################################################################
-# vault_dr Module
-################################################################################
-module "vault_dr_instance" {
-  source                         = "../../modules/vault_dr"
-  deployment_identifier          = module.deploy_prep.deployment_uid
-  instance_name                  = local.vaultdr_instance_name
-  instance_type                  = local.vaultdr_instance_type
-  key_name                       = var.key_name
-  subnet_id                      = module.pam_network.private_subnets_map["Vault DR Subnet"].id
-  vpc_security_group_ids         = [module.pam_network.security_group_ids["Vault"]]
-  ami_id                         = var.vault_ami_id
-  primary_vault_ip               = module.vault_instance.instance_ip_address
-  instance_hostname              = local.vaultdr_instance_hostname
-  vault_dr_password              = var.vault_dr_password
-  vault_dr_secret                = var.vault_dr_secret
-  log_group_name                 = module.deploy_prep.log_group_name
-  manage_ssm_password_lambda     = module.deploy_prep.manage_ssm_password_lambda
-  retrieve_success_signal_lambda = module.deploy_prep.retrieve_success_signal_lambda
-  remove_permissions_lambda      = module.deploy_prep.remove_permissions_lambda
-  depends_on                     = [module.vault_instance]
+resource "terraform_data" "vpn_ready_gate" {
+  lifecycle {
+    postcondition {
+      condition     = local.all_tunnels_up
+      error_message = <<-EOM
+      CONDITION FAILED
+      
+      VPN readiness check failed: there are no 2 tunnels with UP status.
+      VPN Connection: ${module.pam_network.vpn_gateway_id}
+      Observed tunnels status: [${local.tunnels_status_summary}]
+      Please finish the remote-side configuration and re-run 'terraform apply'.
+      EOM
+    }
+  }
+  depends_on = [module.deploy_prep, module.pam_network]
 }
 
 ################################################################################
@@ -140,8 +108,7 @@ module "pvwa_instance" {
   subnet_id                      = module.pam_network.private_subnets_map["PVWA Main Subnet"].id
   vpc_security_group_ids         = [module.pam_network.security_group_ids["PVWA"]]
   ami_id                         = var.pvwa_ami_id
-  primary_vault_ip               = module.vault_instance.instance_ip_address
-  vault_dr_ip                    = module.vault_dr_instance.instance_ip_address
+  primary_vault_ip               = var.primary_vault_ip
   instance_hostname              = local.pvwa_instance_hostname
   component                      = "PVWA"
   vault_admin_username           = local.vault_admin_username
@@ -149,7 +116,7 @@ module "pvwa_instance" {
   log_group_name                 = module.deploy_prep.log_group_name
   manage_ssm_password_lambda     = module.deploy_prep.manage_ssm_password_lambda
   retrieve_success_signal_lambda = module.deploy_prep.retrieve_success_signal_lambda
-  depends_on                     = [module.vault_dr_instance]
+  depends_on                     = [resource.terraform_data.vpn_ready_gate]
 }
 
 module "cpm_instance" {
@@ -161,8 +128,7 @@ module "cpm_instance" {
   subnet_id                      = module.pam_network.private_subnets_map["CPM Main Subnet"].id
   vpc_security_group_ids         = [module.pam_network.security_group_ids["CPM"]]
   ami_id                         = var.cpm_ami_id
-  primary_vault_ip               = module.vault_instance.instance_ip_address
-  vault_dr_ip                    = module.vault_dr_instance.instance_ip_address
+  primary_vault_ip               = var.primary_vault_ip
   pvwa_private_endpoint          = module.pvwa_instance.instance_ip_address
   instance_hostname              = local.cpm_instance_hostname
   component                      = "CPM"
@@ -183,8 +149,7 @@ module "psm_instance" {
   subnet_id                      = module.pam_network.private_subnets_map["PSM Main Subnet"].id
   vpc_security_group_ids         = [module.pam_network.security_group_ids["PSM"]]
   ami_id                         = var.psm_ami_id
-  primary_vault_ip               = module.vault_instance.instance_ip_address
-  vault_dr_ip                    = module.vault_dr_instance.instance_ip_address
+  primary_vault_ip               = var.primary_vault_ip
   instance_hostname              = local.psm_instance_hostname
   component                      = "PSM"
   vault_admin_username           = local.vault_admin_username
@@ -204,8 +169,7 @@ module "psmp_instance" {
   subnet_id                      = module.pam_network.private_subnets_map["PSMP Main Subnet"].id
   vpc_security_group_ids         = [module.pam_network.security_group_ids["PSMP"]]
   ami_id                         = var.psmp_ami_id
-  primary_vault_ip               = module.vault_instance.instance_ip_address
-  vault_dr_ip                    = module.vault_dr_instance.instance_ip_address
+  primary_vault_ip               = var.primary_vault_ip
   instance_hostname              = local.psmp_instance_hostname
   component                      = "PSMP"
   vault_admin_username           = local.vault_admin_username
@@ -225,8 +189,7 @@ module "pta_instance" {
   subnet_id                      = module.pam_network.private_subnets_map["PTA Main Subnet"].id
   vpc_security_group_ids         = [module.pam_network.security_group_ids["PTA"]]
   ami_id                         = var.pta_ami_id
-  primary_vault_ip               = module.vault_instance.instance_ip_address
-  vault_dr_ip                    = module.vault_dr_instance.instance_ip_address
+  primary_vault_ip               = var.primary_vault_ip
   pvwa_private_endpoint          = module.pvwa_instance.instance_private_dns
   instance_hostname              = local.pta_instance_hostname
   component                      = "PTA"

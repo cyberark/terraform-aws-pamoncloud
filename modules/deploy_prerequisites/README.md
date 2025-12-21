@@ -75,6 +75,7 @@ No Inputs.
 |------|-------------|
 | <a name="output_deployment_uid"></a> [deployment\_uid](#output\_deployment\_uid) | The unique deployment identifier. |
 | <a name="output_log_group_name"></a> [log\_group\_name](#output\_log\_group\_name) | The name of the CloudWatch log group. |
+| <a name="output_log_group_arn"></a> [log\_group\_arn](#output\_log\_group\_arn) | The ARN of the CloudWatch log group. |
 | <a name="output_manage_ssm_password_lambda"></a> [manage\_ssm\_password\_lambda](#output_manage\_ssm\_password\_lambda) | The Lambda function name that manages SSM passwords. |
 | <a name="output_retrieve_success_signal_lambda"></a> [retrieve\_success\_signal\_lambda](#output_retrieve\_success\_signal\_lambda) | The Lambda function name that retrieves success signals. |
 | <a name="output_remove_permissions_lambda"></a> [remove\_permissions\_lambda](#output_remove\_permissions\_lambda) | The Lambda function details for removing permissions, including function name, ARN, and role name. |

@@ -1,5 +1,5 @@
 variable "rules" {
-  description = "Map of  security group rules for each component (define as 'name' = ['from port', 'to port', 'protocol', 'description', 'source_security_group_id', 'cidr'])"
+  description = "Map of security group rules for each component (define as 'name' = ['from port', 'to port', 'protocol', 'description', 'source_security_group_id', 'cidr'])"
   type        = map(map(list(any)))
   default = {
     Vault = {

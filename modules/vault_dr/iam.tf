@@ -103,7 +103,7 @@ resource "aws_iam_role_policy" "lambda_remove_permissions_policy" {
 #### IAM Roles
 
 resource "aws_iam_role" "instance_role" {
-  name               = "PAMonCloud_TF_${local.component}_Role_${random_string.deployment_uid.result}"
+  name               = "PAMonCloud_TF_${local.component}_Role_${local.deployment_uid}"
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.instance_assume_role_policy.json
 }
@@ -111,6 +111,6 @@ resource "aws_iam_role" "instance_role" {
 #### IAM Instance Profiles
 
 resource "aws_iam_instance_profile" "instance_profile" {
-  name = "PAMonCloud_TF_${local.component}_InstanceProfile_${random_string.deployment_uid.result}"
+  name = "PAMonCloud_TF_${local.component}_InstanceProfile_${local.deployment_uid}"
   role = aws_iam_role.instance_role.name
 }

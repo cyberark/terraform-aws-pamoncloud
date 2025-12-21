@@ -1,6 +1,13 @@
 locals {
+  # Network locals
+  region = "eu-west-1"
+
   # General locals
-  region               = "eu-west-1"
+  common_tags = {
+    Creator               = "CyberArk PAMonCloud via Terraform"
+    Region_Role           = "Primary"
+    Tf_Plan_Creation_Date = plantimestamp()
+  }
   vault_admin_username = "Administrator"
 
   # Component locals
@@ -11,6 +18,10 @@ locals {
 
 provider "aws" {
   region = local.region
+
+  default_tags {
+    tags = local.common_tags
+  }
 }
 
 ################################################################################
@@ -25,6 +36,7 @@ module "deploy_prep" {
 ################################################################################
 module "component_instance" {
   source                         = "../../modules/component"
+  deployment_identifier          = module.deploy_prep.deployment_uid
   instance_name                  = local.component_instance_name
   instance_type                  = local.component_instance_type
   key_name                       = var.key_name

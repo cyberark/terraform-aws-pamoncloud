@@ -71,6 +71,7 @@ Note that this example creates resources which can cost money (AWS EC2 Instance,
 
 | Name | Module | Description |
 |------|--------|-------------|
+| <a name="output_common_tags"></a> [common\_tags](#output\_common\_tags) | N/A | Common tags assigned to all resources. |
 | <a name="output_vpc_id_main"></a> [vpc\_id\_main](#output\_vpc\_id\_main) | pam_network_main | VPC ID - Main Region. |
 | <a name="output_vpc_id_dr"></a> [vpc\_id\_dr](#output\_vpc\_id\_dr) | pam_network_dr | VPC ID - DR Region. |
 | <a name="output_public_subnets_main"></a> [public\_subnets\_main](#output\_public\_subnets\_main) | pam_network_main | Public Subnet IDs - Main Region. |

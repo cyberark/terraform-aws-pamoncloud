@@ -35,6 +35,7 @@ locals {
   cidr_map = {
     "UsersAccessCIDR"          = var.users_access_cidr
     "AdministrativeAccessCIDR" = var.administrative_access_cidr
+    "vpnCIDR"                  = var.vpn_external_vault_cidr
   }
 }
 
@@ -58,12 +59,13 @@ module "pam_vpc" {
   public_subnet_names  = local.public_subnet_names
   public_subnets       = local.public_subnets
 
-  create_igw           = true
-  enable_nat_gateway   = local.network_type == "nat"
-  single_nat_gateway   = true
-  enable_dns_support   = true
-  enable_dns_hostnames = true
-
+  create_igw                         = true
+  enable_nat_gateway                 = local.network_type == "nat"
+  single_nat_gateway                 = true
+  enable_dns_support                 = true
+  enable_dns_hostnames               = true
+  enable_vpn_gateway                 = local.vpn_deployment
+  propagate_private_route_tables_vgw = true
 
   public_route_table_tags = {
     Name = "PAMonCloud Public Route Table"

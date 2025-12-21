@@ -1,5 +1,5 @@
 output "deployment_uid" {
-  value = random_string.deployment_uid.result
+  value = local.deployment_uid
 }
 
 output "instance_ip_address" {

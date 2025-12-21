@@ -41,3 +41,15 @@ output "private_subnets_map" {
 output "sg_rules" {
   value = var.rules
 }
+
+output "vpn_gateway_id" {
+  value = local.vpn_deployment ? module.pam_vpc.vgw_id : null
+}
+
+output "vpn_connection_id" {
+  value = local.vpn_deployment ? resource.aws_vpn_connection.vpn_connection[0].id : null
+}
+
+output "vpn_vgw_telemetry" {
+  value = local.vpn_deployment ? resource.aws_vpn_connection.vpn_connection[0].vgw_telemetry : null
+}

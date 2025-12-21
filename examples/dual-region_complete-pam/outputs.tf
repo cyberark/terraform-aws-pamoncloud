@@ -1,3 +1,32 @@
+# General outputs
+
+output "common_tags" {
+  description = "Common tags assigned to all resources."
+  value       = local.common_tags
+}
+
+# deploy_prep outputs
+
+output "deployment_uid_main" {
+  description = "Deployment Unique ID in main region"
+  value       = module.deploy_prep_main.deployment_uid
+}
+
+output "deployment_uid_dr" {
+  description = "Deployment Unique ID in DR region"
+  value       = module.deploy_prep_dr.deployment_uid
+}
+
+output "log_group_name_main" {
+  description = "CloudWatch Log Group name in main region"
+  value       = module.deploy_prep_main.log_group_name
+}
+
+output "log_group_name_dr" {
+  description = "CloudWatch Log Group name in DR region"
+  value       = module.deploy_prep_dr.log_group_name
+}
+
 # pam_network outputs
 
 output "vpc_id_main" {
@@ -68,28 +97,6 @@ output "private_subnets_map_main" {
 output "private_subnets_map_dr" {
   description = "A map of subnet details (id and cidr_block) by name in DR region"
   value       = module.pam_network_dr.private_subnets_map
-}
-
-# deploy_prep outputs
-
-output "deployment_uid_main" {
-  description = "Deployment Unique ID in main region"
-  value       = module.deploy_prep_main.deployment_uid
-}
-
-output "deployment_uid_dr" {
-  description = "Deployment Unique ID in DR region"
-  value       = module.deploy_prep_dr.deployment_uid
-}
-
-output "log_group_name_main" {
-  description = "CloudWatch Log Group name in main region"
-  value       = module.deploy_prep_main.log_group_name
-}
-
-output "log_group_name_dr" {
-  description = "CloudWatch Log Group name in DR region"
-  value       = module.deploy_prep_dr.log_group_name
 }
 
 # vault_instance outputs
