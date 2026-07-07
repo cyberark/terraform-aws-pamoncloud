@@ -34,6 +34,12 @@ locals {
   vaultdr_instance_name     = "[PAMonCloud_TF] Vault DR"
   vaultdr_instance_type     = "m5.2xlarge"
   vaultdr_instance_hostname = "vault-dr"
+
+  # Bastion locals (used when var.deploy_bastion is true; main region only)
+  bastion_instance_name = "[PAMonCloud_TF] Bastion"
+  bastion_instance_type = "m8i.large"
+  bastion_aws_ami_owner = "amazon"
+  bastion_aws_ami_filter_name = "Windows_Server-2022-English-Full-Base-*"
 }
 
 provider "aws" {
@@ -93,6 +99,7 @@ module "pam_network_main" {
   network_type               = local.regions.main_region.network_type
   users_access_cidr          = local.regions.main_region.users_access_cidr
   administrative_access_cidr = local.regions.main_region.administrative_access_cidr
+  bastion_access_cidr        = var.bastion_access_cidr
 }
 
 module "pam_network_dr" {
@@ -104,6 +111,27 @@ module "pam_network_dr" {
   network_type               = local.regions.dr_region.network_type
   users_access_cidr          = local.regions.dr_region.users_access_cidr
   administrative_access_cidr = local.regions.dr_region.administrative_access_cidr
+}
+
+################################################################################
+# bastion Module (optional; main region only)
+################################################################################
+module "bastion" {
+  count  = var.deploy_bastion ? 1 : 0
+  source = "../../modules/bastion"
+  providers = {
+    aws = aws.main
+  }
+
+  instance_name      = local.bastion_instance_name
+  instance_type      = local.bastion_instance_type
+  subnet_id              = module.pam_network_main.public_subnets[0]
+  vpc_security_group_ids = [module.pam_network_main.security_group_ids["Bastion"]]
+  key_name               = var.key_name
+  bastion_aws_ami_owner   = local.bastion_aws_ami_owner
+  bastion_aws_ami_filter_name = local.bastion_aws_ami_filter_name  
+
+  depends_on = [module.pam_network_main]
 }
 
 ################################################################################

@@ -38,6 +38,12 @@ locals {
   pta_instance_name     = "[PAMonCloud_TF] PTA"
   pta_instance_type     = "m5.xlarge"
   pta_instance_hostname = "pta"
+
+  # Bastion locals (used when var.deploy_bastion is true)
+  bastion_instance_name = "[PAMonCloud_TF] Bastion"
+  bastion_instance_type = "m8i.large"
+  bastion_aws_ami_owner = "amazon"
+  bastion_aws_ami_filter_name = "Windows_Server-2022-English-Full-Base-*"
 }
 
 provider "aws" {
@@ -64,6 +70,7 @@ module "pam_network" {
   network_type               = local.network_type
   users_access_cidr          = local.users_access_cidr
   administrative_access_cidr = local.administrative_access_cidr
+  bastion_access_cidr        = var.bastion_access_cidr
   # VPN related vars:
   vpn_customer_gateway_address = var.vpn_customer_gateway_address
   vpn_external_vault_cidr      = var.vpn_external_vault_cidr
@@ -94,6 +101,24 @@ resource "terraform_data" "vpn_ready_gate" {
     }
   }
   depends_on = [module.deploy_prep, module.pam_network]
+}
+
+################################################################################
+# bastion Module (optional; requires network_type = "nat")
+################################################################################
+module "bastion" {
+  count  = var.deploy_bastion ? 1 : 0
+  source = "../../modules/bastion"
+
+  instance_name     = local.bastion_instance_name
+  instance_type     = local.bastion_instance_type
+  subnet_id               = module.pam_network.public_subnets[0]
+  vpc_security_group_ids  = [module.pam_network.security_group_ids["Bastion"]]
+  key_name                = var.key_name
+  bastion_aws_ami_owner   = local.bastion_aws_ami_owner
+  bastion_aws_ami_filter_name = local.bastion_aws_ami_filter_name
+
+  depends_on = [resource.terraform_data.vpn_ready_gate]
 }
 
 ################################################################################

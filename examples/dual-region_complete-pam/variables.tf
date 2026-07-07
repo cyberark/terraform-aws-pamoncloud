@@ -1,3 +1,15 @@
+variable "deploy_bastion" {
+  description = "When true, deploys a Bastion EC2 instance in the public subnet."
+  type        = bool
+  default     = false
+}
+
+variable "bastion_access_cidr" {
+  description = "List of allowed IPv4 CIDR blocks for RDP access to the Bastion instance"
+  type        = list(string)
+  default     = []
+}
+
 variable "key_name" {
   description = "The name of the EC2 key pair to use."
   type        = string

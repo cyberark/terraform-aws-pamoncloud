@@ -131,5 +131,11 @@ variable "rules" {
       PTASGEgress19 = ["egress", 22, 22, "tcp", "Allow outgoing connection to the PTA Network Sensor for a specific IP address. Enable outgoing SSH connection in a disaster recovery environment", "PTA Main Subnet"]
       PTASGEgress20 = ["egress", 22, 22, "tcp", "Allow outgoing connection to the PTA Network Sensor for a specific IP address. Enable outgoing SSH connection in a disaster recovery environment", "PTA DR Subnet"]
     }
+
+    Bastion = {
+      BastionSGIngress1 = ["ingress", 3389, 3389, "tcp", "RDP from Bastion Access CIDRs", "BastionAccessCIDR"]
+
+      BastionSGEgress1 = ["egress", 0, 0, "-1", "Bastion egress to anywhere (any port)", "0.0.0.0/0"]
+    }
   }
 }

@@ -5,7 +5,8 @@ locals {
     "PVWA",
     "PSM",
     "PSMP",
-    "PTA"
+    "PTA",
+    "Bastion"
   ]
 
   rules = flatten([
@@ -15,7 +16,7 @@ locals {
         rule_name = rule_name
         rule      = rule
       }
-    ]
+    ] if !(component == "Bastion" && length(var.bastion_access_cidr) == 0)
   ])
 }
 
@@ -40,7 +41,14 @@ resource "aws_security_group_rule" "rules_with_cidr" {
   protocol          = each.value.rule[3]
   description       = each.value.rule[4]
   security_group_id = aws_security_group.security_group[each.value.component].id
-  cidr_blocks       = each.value.rule[5] != null ? [lookup(local.cidr_map, each.value.rule[5], lookup(local.subnet_cidr_map, each.value.rule[5], each.value.rule[5]))] : []
+
+  cidr_blocks = (
+    contains(keys(local.cidr_map), each.value.rule[5])
+    ? local.cidr_map[each.value.rule[5]]
+    : (each.value.rule[5] != null
+      ? [lookup(local.subnet_cidr_map, each.value.rule[5], each.value.rule[5])]
+      : [])
+  )
 
   depends_on = [aws_security_group.security_group]
 }

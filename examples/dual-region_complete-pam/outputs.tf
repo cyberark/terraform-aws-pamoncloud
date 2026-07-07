@@ -44,6 +44,23 @@ output "public_subnets_main" {
   value       = module.pam_network_main.public_subnets
 }
 
+# bastion outputs (when var.deploy_bastion is true)
+
+output "bastion_public_ip" {
+  value       = var.deploy_bastion ? module.bastion[0].public_ip : null
+  description = "Public IP of the Bastion instance in main region when deploy_bastion is true (use for RDP)."
+}
+
+output "bastion_private_ip" {
+  value       = var.deploy_bastion ? module.bastion[0].private_ip : null
+  description = "Private IP of the Bastion instance when deploy_bastion is true."
+}
+
+output "bastion_instance_id" {
+  value       = var.deploy_bastion ? module.bastion[0].instance_id : null
+  description = "EC2 instance ID of the Bastion when deploy_bastion is true."
+}
+
 output "public_subnets_dr" {
   description = "Public Subnet IDs in DR region"
   value       = module.pam_network_dr.public_subnets

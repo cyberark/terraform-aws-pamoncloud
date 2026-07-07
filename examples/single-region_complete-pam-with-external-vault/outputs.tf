@@ -64,6 +64,23 @@ output "vpn_connection_id" {
   value       = module.pam_network.vpn_connection_id
 }
 
+# bastion outputs (when var.deploy_bastion is true)
+
+output "bastion_public_ip" {
+  value       = var.deploy_bastion ? module.bastion[0].public_ip : null
+  description = "Public IP of the Bastion instance when deploy_bastion is true (use for RDP)."
+}
+
+output "bastion_private_ip" {
+  value       = var.deploy_bastion ? module.bastion[0].private_ip : null
+  description = "Private IP of the Bastion instance when deploy_bastion is true."
+}
+
+output "bastion_instance_id" {
+  value       = var.deploy_bastion ? module.bastion[0].instance_id : null
+  description = "EC2 instance ID of the Bastion when deploy_bastion is true."
+}
+
 # pvwa_instance outputs
 
 output "pvwa_instance_ip_address" {

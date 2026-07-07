@@ -1,6 +1,6 @@
 locals {
   network_type        = lower(var.network_type)
-  public_subnet_names = (local.network_type == "nat") ? ["NAT Subnet"] : []
+  public_subnet_names = (local.network_type == "nat") ? ["Public Subnet"] : []
   public_subnets      = (local.network_type == "nat") ? [cidrsubnet(var.pam_vpc_cidr, 8, 0)] : []
   private_subnet_names = [
     "Vault Main Subnet",
@@ -33,9 +33,10 @@ locals {
 
   subnet_cidr_map = zipmap(local.private_subnet_names, local.private_subnets)
   cidr_map = {
-    "UsersAccessCIDR"          = var.users_access_cidr
-    "AdministrativeAccessCIDR" = var.administrative_access_cidr
-    "vpnCIDR"                  = var.vpn_external_vault_cidr
+    "UsersAccessCIDR"          = [var.users_access_cidr]
+    "AdministrativeAccessCIDR" = [var.administrative_access_cidr]
+    "vpnCIDR"                  = [var.vpn_external_vault_cidr]
+    "BastionAccessCIDR"        = var.bastion_access_cidr
   }
 }
 

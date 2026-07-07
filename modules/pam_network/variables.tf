@@ -20,6 +20,12 @@ variable "administrative_access_cidr" {
   }
 }
 
+variable "bastion_access_cidr" {
+  description = "List of allowed IPv4 CIDR blocks for RDP access to the Bastion instance"
+  type        = list(string)
+  default     = []
+}
+
 variable "network_type" {
   description = "The type of networking to deploy. Valid options: 'privatelink' or 'nat'"
   type        = string
